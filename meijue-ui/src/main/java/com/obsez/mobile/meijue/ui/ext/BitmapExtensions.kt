@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable
 /**
  * 设法找出外边框的主要颜色，这是为了便于融合到背景
  *
+ * return the dominant color of an image, depends its frame colors.
+ *
  */
 val Bitmap.dominantFrameColor: Int
     get() {
@@ -65,7 +67,7 @@ val Bitmap.dominantFrameColor: Int
     }
 
 /**
- * 设法找到图片的主要颜色
+ * return the dominant color of an image.
  *
  * 1. https://android.jlelse.eu/creating-the-flexible-space-with-image-pattern-on-android-b5f8908b9921
  * 2. https://stackoverflow.com/questions/8471236/finding-the-dominant-color-of-an-image-in-an-android-drawable
@@ -79,6 +81,9 @@ val Bitmap.dominantColor: Int
         return color
     }
 
+/**
+ * return the dominant color, we calculate each points to get it.
+ */
 val Bitmap.dominantColor2: Int
     get() {
         //if (this == null) {

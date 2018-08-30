@@ -50,12 +50,21 @@ fun Activity.hideKeyboard(): Boolean {
 fun Activity.toast(@StringRes id: Int, vararg args: Any?, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, getString(id, args), duration).show()
 
 fun Activity.toast(@NotNull msg: CharSequence, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, msg, duration).show()
-fun Activity.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: Snackbar.() -> Unit) {
-    val s = Snackbar.make(rootContentView, getString(id, args), duration); s.func(); s.show()
+/**
+ * Usage:
+ *     snackBar("I'm here")
+ *     snackBar("I'm here") {
+ *         action("Retry?"){
+ *             toast("retrying...")
+ *         }
+ *     }
+ */
+fun Activity.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
+    val s = Snackbar.make(rootContentView, getString(id, args), duration); func?.let { s.it() }; s.show()
 }
 
-fun Activity.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: Snackbar.() -> Unit) {
-    val s = Snackbar.make(rootContentView, msg, duration); s.func(); s.show()
+fun Activity.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
+    val s = Snackbar.make(rootContentView, msg, duration); func?.let { s.it() }; s.show()
 }
 
 
@@ -197,7 +206,8 @@ fun Activity.setTranslucentMode(translucentMode: Boolean = true) {
 
 
 /**
- * 在设置了 contentView 之后，setContentFragment允许立即调入一个特定的 Fragment
+ * `setContentFragment` enable you load certain a Fragment right away after `setContentView` done.
+ *
  */
 inline fun android.support.v4.app.FragmentActivity.setContentFragment(containerViewId: Int, f: () -> Fragment): Fragment? {
     val manager = supportFragmentManager
@@ -209,7 +219,7 @@ inline fun android.support.v4.app.FragmentActivity.setContentFragment(containerV
 
 /**
  * 获取的是 setContentView() 送入的布局资源的顶级视图。
- * 该视图为 android.support.v7.widget.contentframelayout
+ * 该视图为 android.support.v7.widget.ContentFrameLayout
  */
 val Activity.rootContentView: View
     inline get() {

@@ -16,6 +16,11 @@ import android.support.v7.widget.AppCompatImageButton
 //    )
 //}
 
+/**
+ * not a satisfied name.
+ *
+ * enlarge and restore an icon
+ */
 fun AppCompatImageButton.animateBounce(newImage: Drawable? = null, duration: Long = -1L, runnable: (() -> Unit)? = null) {
     this.animate().scaleX(1.4f).scaleY(1.4f)
             .setInterpolator(LinearOutSlowInInterpolator())
@@ -51,6 +56,11 @@ fun AppCompatImageButton.animateRotation(duration: Long = -1L, runnable: (() -> 
             .start()
 }
 
+/**
+ * not a satisfied name
+ *
+ * rotate an icon with enlarge it and restore it
+ */
 fun AppCompatImageButton.animateRotation2(duration: Long = -1L, runnable: (() -> Unit)? = null) {
     val a = this.animate().rotationBy(180f)
             .scaleX(1.4f).scaleY(1.4f)

@@ -78,12 +78,12 @@ fun Fragment.getColor(@ColorRes id: Int) = context?.let { ContextCompat.getColor
 
 fun Fragment.toast(@StringRes id: Int, vararg args: Any?, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(activity, activity?.resources?.getString(id, args), duration).show()
 fun Fragment.toast(@NotNull msg: CharSequence, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(activity, msg, duration).show()
-fun Fragment.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: Snackbar.() -> Unit) {
-    val s = Snackbar.make(view!!, activity?.resources?.getString(id, args)!!, duration); s.func(); s.show()
+fun Fragment.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
+    val s = Snackbar.make(view!!, activity?.resources?.getString(id, args)!!, duration); func?.let { s.it() }; s.show()
 }
 
-fun Fragment.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: Snackbar.() -> Unit) {
-    val s = Snackbar.make(view!!, msg, duration); s.func(); s.show()
+fun Fragment.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
+    val s = Snackbar.make(view!!, msg, duration); func?.let { s.it() }; s.show()
 }
 
 

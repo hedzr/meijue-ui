@@ -5,9 +5,9 @@ do-merge(){
     git checkout master
     git merge --no-ff -m "$@" devel
     git tag release/v$tag
-    git push origin --all
+    # git push origin --all
     git checkout devel
-    git push origin --tags
+    # git push origin --tags
 }
 
 if [ $# -lt 2 ]; then
