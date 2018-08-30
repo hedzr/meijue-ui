@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--dimens.xml-->
+<resources>
+    <dimen name="btn_fab_size">56dp</dimen>
+
+
+    <dimen name="avatar_size_extra_small">30dp</dimen>
+    <dimen name="avatar_size_small">44dp</dimen>
+    <dimen name="avatar_size_medium">72dp</dimen>
+
+
+    <dimen name="margin_primary">16dp</dimen>
+    <dimen name="margin_three_quarters">12dp</dimen>
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_quarter">4dp</dimen>
+    <dimen name="margin_none">0dp</dimen>
+
+
+
+</resources>

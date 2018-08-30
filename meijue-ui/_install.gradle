@@ -1,0 +1,73 @@
+apply plugin: 'com.github.dcendents.android-maven'
+// https://github.com/dcendents/android-maven-gradle-plugin
+// https://docs.gradle.org/current/userguide/maven_plugin.html
+// https://docs.gradle.org/current/userguide/maven_plugin.html#sub:installing_to_the_local_repository
+//
+
+
+group = publishedGroupId // Maven Group ID for the artifact
+
+def getThisProperties() {
+    Properties localProperties = new Properties()
+    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    if (!localProperties.hasProperty("bintray.user")) {
+        return null
+    } else {
+        println "user=" + localProperties.getProperty("bintray.user") + ", key=" + localProperties.getProperty("bintray.apikey")
+    }
+    return localProperties
+}
+def xxget(String k) {
+    Properties p = getThisProperties()
+    return p && p.hasProperty(k) ? p.getProperty(k) : project.hasProperty(k) ? project.property(k) : ''
+}
+def getBintrayUsername(){ return xxget('bintray.user') }
+def getBintrayKey(){ return xxget('bintray.apikey') }
+println "bintray: user=" + getBintrayUsername() + ", key=" + getBintrayKey()
+
+ext {
+    developerId = project.hasProperty('developerId') ? developerId : xxget('ext.developerId')
+    developerName = project.hasProperty('developerName') ? developerName : xxget('ext.developerName')
+    developerEmail = project.hasProperty('developerEmail') ? developerEmail : xxget('ext.developerEmail')
+    organization = project.hasProperty('organization') ? organization : xxget('ext.organization')
+}
+println "debug: developerId=" + developerId + ', ' + developerName + ', ' + developerEmail
+
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            // Add your description here
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            // Set your license
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+
+            }
+        }
+
+    }
+}

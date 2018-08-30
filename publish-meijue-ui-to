@@ -1,0 +1,17 @@
+#!/bin/bash
+
+RM_1ST=0
+[ "$1" == "--rm" ] && shift && RM_1ST=1
+
+
+case $1 in
+    local|lo|copy|aar)
+        shift
+        [[ $RM_1ST -eq 1 ]] && rm -rf meijue-ui/build
+        ./gradlew :meijue-ui:copyAar $*
+        ;;
+    *)
+        ./gradlew bintrayUpload $*
+        ;;
+esac
+

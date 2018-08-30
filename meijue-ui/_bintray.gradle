@@ -1,0 +1,99 @@
+//
+// https://android.jlelse.eu/how-to-distribute-android-library-in-a-convenient-way-d43fb68304a7
+//
+
+apply plugin: 'com.jfrog.bintray'
+
+version = libraryVersion
+
+/*
+ * Comment the following part if you only want to distribute .aar files. 
+ * (For example, your source code is obfuscated by Proguard and is not shown to outsite developers)
+ * Without source code .jar files, you only can publish on bintray respository but not jcenter.
+ */
+
+/*--------------------------------*/
+if (project.hasProperty("android")) {
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        failOnError false
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+/*--------------------------------*/
+
+// Bintray
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def getThisProperties() {
+    Properties localProperties = new Properties()
+    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    if (!localProperties.hasProperty("bintray.user")) {
+        return null
+    } else {
+        println "user=" + localProperties.getProperty("bintray.user") + ", key=" + localProperties.getProperty("bintray.apikey")
+    }
+    return localProperties
+}
+def xxget(String k) {
+    Properties p = getThisProperties()
+    return p && p.hasProperty(k) ? p.getProperty(k) : project.hasProperty(k) ? project.property(k) : ''
+}
+ext {
+    developerId = project.hasProperty('developerId') ? developerId : xxget('ext.developerId')
+    developerName = project.hasProperty('developerName') ? developerName : xxget('ext.developerName')
+    developerEmail = project.hasProperty('developerEmail') ? developerEmail : xxget('ext.developerEmail')
+    organization = project.hasProperty('organization') ? organization : xxget('ext.organization')
+    gpgpwd = xxget("bintray.gpg.password")
+}
+
+bintray {
+    user = xxget("bintray.user") //properties.getProperty("bintray.user")
+    key = xxget("bintray.apikey") //properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        userOrg = organization   // If the repository is hosted by an organization instead of personal account.
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            if (gpgpwd != '') {
+                gpg {
+                    sign = true
+                    passphrase = gpgpwd // properties.getProperty("bintray.gpg.password")
+                }
+            } else {
+                gpg {
+                    sign = false
+                }
+            }
+        }
+    }
+}

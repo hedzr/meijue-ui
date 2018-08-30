@@ -1,0 +1,21 @@
+#!/bin/bash
+
+do-merge(){
+    local tag=$1 && shift
+    git checkout master
+    git merge --no-ff -m "$@" devel
+    git tag release/v$tag
+    git push origin --all
+    git checkout devel
+    git push origin --tags
+}
+
+if [ $# -lt 2 ]; then
+    cat <<EOF
+
+Usage: $0 1.0.7 "bumped to new version"
+
+EOF
+else
+    do-merge "$@"
+fi

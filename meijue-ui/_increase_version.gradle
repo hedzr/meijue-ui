@@ -1,0 +1,109 @@
+
+
+def incVersionCore(buildOrMinor, clearBuild) {
+    //读取当前modules下的gradle.properties
+    def versionPropsFile = file(projectDir.absolutePath + '/gradle.properties')
+    System.out.println("[trying properties] " + versionPropsFile)
+
+    if (!versionPropsFile.canRead()) {
+        //如果当前当前modules下的gradle.properties不可读则读取项目中的gradle.properties
+        versionPropsFile = file(projectDir.parentFile.absolutePath + '/gradle.properties')
+        System.out.println("[and trying properties] " + versionPropsFile)
+    }
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        //读取gradle.properties中的VERSION_CODE
+        Integer code = versionProps['VERSION_CODE'].toLong()
+        //将gradle.properties值加上传入的参数值生成新的VERSION_CODE
+        Integer codeNew = code + buildOrMinor
+        if (clearBuild) {
+            Integer b = ((codeNew % 10000000) / 100000)
+            codeNew -= (b * 100000)
+        }
+        //读取gradle.properties中的VERSION_NAME
+        def name = versionProps['VERSION_NAME']
+        def nameNew = (codeNew / 1000000000).longValue().toString() + '.' +
+                ((codeNew % 1000000000) / 10000000).longValue().toString() + '.' +
+                ((codeNew % 10000000) / 100000).longValue().toString()
+
+        versionProps['VERSION_CODE'] = codeNew.toString()
+        versionProps['VERSION_NAME'] = nameNew
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        System.out.println("Incrementing Version Name: " + name + " ==> " + nameNew)
+        System.out.println("Incrementing Version Code: " + code + " ==>" + codeNew)
+    } else {
+        throw new GradleException("Could not read gradle.properties!")
+    }
+}
+
+static def buildTime() { return new Date().format("yyyy-MM-dd HH:mm:ss.SSSSZ", TimeZone.getTimeZone("UTC")) }
+def getGitVersion() { return 'git rev-parse HEAD'.execute([], project.rootDir).text.trim() }
+
+def defaultBuildConfigFields() {
+    buildConfigField "String", "WXAPPID", "\"${project.WXSDKAPPID}\""
+    buildConfigField "String", "WXSECRETID", "\"${project.WXSDKSECRETID}\""
+    buildConfigField "String", "UNIONPAYTYPE", "\"${project.UNIONPAYTYPE}\""
+}
+
+task('incVersions') {
+    doLast {
+        incVersionCore(1, false)
+    }
+}
+
+task('incVersionsBuild') {
+    doLast {
+        incVersionCore(1, false)
+    }
+}
+
+task('incRelease') {
+    doLast {
+        incVersionCore(100000, false)
+    }
+}
+
+task('incVersionsRelease') {
+    doLast {
+        incVersionCore(100000, false)
+    }
+}
+
+task('incVersionsMinor') {
+    doLast {
+        incVersionCore(10000000, true)
+    }
+}
+
+
+def incrementedBuild = project.hasProperty("INCREMENTED_BUILD") ? project.INCREMENTED_BUILD : false
+def incrementedRelease = project.hasProperty("INCREMENTED_RELEASE") ? project.INCREMENTED_RELEASE : true
+
+tasks.whenTaskAdded { task ->
+    System.out.println("task.name: " + task.name + ", incrementedRelease: " + incrementedRelease + ", incrementedBuild: " + incrementedBuild)
+
+    if (task.name.contains('AndroidTest')) {
+        task.enabled = false
+    }
+
+    if (!incrementedBuild && task.name.matches('generate.*?DebugBuildConfig')) {
+        System.out.println("incVersionsBuild")
+        task.dependsOn 'incVersionsBuild'
+        incrementedBuild = true
+        return
+    }
+
+    if (!incrementedRelease && task.name.matches('generate.*?ReleaseBuildConfig')) {
+        System.out.println("incVersionsRelease")
+        task.dependsOn 'incVersionsRelease'
+        incrementedRelease = true
+        return
+    }
+
+}
+
