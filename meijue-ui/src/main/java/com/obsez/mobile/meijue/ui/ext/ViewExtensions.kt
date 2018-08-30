@@ -26,12 +26,12 @@ import org.jetbrains.annotations.NotNull
 
 fun View.toast(@StringRes id: Int, vararg args: Any?, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(context, context.getString(id, args), duration).show()
 fun View.toast(@NotNull msg: CharSequence, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(context, msg, duration).show()
-fun View.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: Snackbar.() -> Unit) {
-    val s = Snackbar.make(this, context.getString(id, args), duration); s.func(); s.show()
+fun View.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
+    val s = Snackbar.make(this, context.getString(id, args), duration); func?.let { s.it() }; s.show()
 }
 
-fun View.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: Snackbar.() -> Unit) {
-    val s = Snackbar.make(this, msg, duration); s.func(); s.show()
+fun View.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
+    val s = Snackbar.make(this, msg, duration); func?.let { s.it() }; s.show()
 }
 
 fun View.isVisible(bool: Boolean?, nonVisibleState: Int = View.GONE) {
