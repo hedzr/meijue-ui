@@ -4,7 +4,8 @@ do-merge(){
     local tag=$1 && shift
     git checkout master
     git merge --no-ff -m "$@" devel
-    git tag release/v$tag
+    #git tag release/v$tag
+    git tag release/$tag
     # git push origin --all
     git checkout devel
     # git push origin --tags
