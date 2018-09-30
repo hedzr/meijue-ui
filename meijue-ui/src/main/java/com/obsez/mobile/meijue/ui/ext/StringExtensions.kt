@@ -2,9 +2,6 @@
 
 package com.obsez.mobile.meijue.ui.ext
 
-import android.support.annotation.StyleRes
-import android.text.Spannable
-import android.text.style.StyleSpan
 import android.util.Base64
 import android.util.Patterns
 import com.obsez.mobile.meijue.ui.util.Radix31
@@ -25,7 +22,7 @@ fun String.isWebUrl() = Patterns.WEB_URL.matcher(this.trim()).matches()
 
 fun String.findTypeParamValue(): String? {
     val regexResult = Regex("type=([a-zA-Z]+)", RegexOption.IGNORE_CASE)
-            .find(this)
+        .find(this)
     if (regexResult?.groups?.size != 2) return null
     return regexResult.groups[1]?.value
 }
@@ -57,7 +54,7 @@ fun String.safeToInt(): Int {
  */
 fun String.normalize(): String {
     return Normalizer.normalize(toLowerCase(), Normalizer.Form.NFD)
-            .replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "").trim()
+        .replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "").trim()
 }
 
 

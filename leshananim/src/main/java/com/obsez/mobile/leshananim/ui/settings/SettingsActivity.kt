@@ -8,15 +8,10 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.ListPreference
-import android.preference.Preference
-import android.preference.PreferenceActivity
-import android.preference.PreferenceFragment
-import android.preference.PreferenceManager
-import android.preference.RingtonePreference
+import android.preference.*
+import android.support.v4.app.NavUtils
 import android.text.TextUtils
 import android.view.MenuItem
-import android.support.v4.app.NavUtils
 import com.obsez.mobile.leshananim.R
 
 /**
@@ -75,9 +70,9 @@ class SettingsActivity : AppCompatPreferenceActivity() {
      */
     override fun isValidFragment(fragmentName: String): Boolean {
         return PreferenceFragment::class.java.name == fragmentName
-                || GeneralPreferenceFragment::class.java.name == fragmentName
-                || DataSyncPreferenceFragment::class.java.name == fragmentName
-                || NotificationPreferenceFragment::class.java.name == fragmentName
+            || GeneralPreferenceFragment::class.java.name == fragmentName
+            || DataSyncPreferenceFragment::class.java.name == fragmentName
+            || NotificationPreferenceFragment::class.java.name == fragmentName
     }
     
     /**
@@ -182,10 +177,10 @@ class SettingsActivity : AppCompatPreferenceActivity() {
                 
                 // Set the summary to reflect the new value.
                 preference.setSummary(
-                        if (index >= 0)
-                            listPreference.entries[index]
-                        else
-                            null)
+                    if (index >= 0)
+                        listPreference.entries[index]
+                    else
+                        null)
                 
             } else if (preference is RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
@@ -196,7 +191,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
                     
                 } else {
                     val ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue))
+                        preference.getContext(), Uri.parse(stringValue))
                     
                     if (ringtone == null) {
                         // Clear the summary if there was a lookup error.
@@ -241,9 +236,9 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             // Trigger the listener immediately with the preference's
             // current value.
             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(preference.context)
-                            .getString(preference.key, ""))
+                PreferenceManager
+                    .getDefaultSharedPreferences(preference.context)
+                    .getString(preference.key, ""))
         }
     }
 }

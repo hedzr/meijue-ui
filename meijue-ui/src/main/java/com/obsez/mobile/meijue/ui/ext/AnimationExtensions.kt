@@ -23,37 +23,37 @@ import android.support.v7.widget.AppCompatImageButton
  */
 fun AppCompatImageButton.animateBounce(newImage: Drawable? = null, duration: Long = -1L, runnable: (() -> Unit)? = null) {
     this.animate().scaleX(1.4f).scaleY(1.4f)
-            .setInterpolator(LinearOutSlowInInterpolator())
-            .withEndAction {
-                if (newImage != null)
-                    this.setImageDrawable(newImage)
-                
-                val ani = this.animate().scaleX(1f).scaleY(1f)
-                if (duration > 0)
-                    ani.duration = duration
-                if (runnable != null)
-                    ani.withEndAction(runnable)
-                ani.start()
-            }
-            .start()
+        .setInterpolator(LinearOutSlowInInterpolator())
+        .withEndAction {
+            if (newImage != null)
+                this.setImageDrawable(newImage)
+            
+            val ani = this.animate().scaleX(1f).scaleY(1f)
+            if (duration > 0)
+                ani.duration = duration
+            if (runnable != null)
+                ani.withEndAction(runnable)
+            ani.start()
+        }
+        .start()
 }
 
 fun AppCompatImageButton.animateRotation(duration: Long = -1L, runnable: (() -> Unit)? = null) {
     val a = this.animate().rotationBy(360f)
-            .scaleX(1.4f).scaleY(1.4f)
+        .scaleX(1.4f).scaleY(1.4f)
     if (duration > 0)
         a.duration = duration
     a.setInterpolator(LinearOutSlowInInterpolator())
-            .withEndAction {
-                val ani = this.animate()
-                        //.rotation(0f)
-                        .scaleX(1f).scaleY(1f)
-                if (runnable != null)
-                //.withEndAction { btn.animate().rotation(0f).setDuration(10).start() }
-                    ani.withEndAction(runnable)
-                ani.start()
-            }
-            .start()
+        .withEndAction {
+            val ani = this.animate()
+                //.rotation(0f)
+                .scaleX(1f).scaleY(1f)
+            if (runnable != null)
+            //.withEndAction { btn.animate().rotation(0f).setDuration(10).start() }
+                ani.withEndAction(runnable)
+            ani.start()
+        }
+        .start()
 }
 
 /**
@@ -63,20 +63,20 @@ fun AppCompatImageButton.animateRotation(duration: Long = -1L, runnable: (() -> 
  */
 fun AppCompatImageButton.animateRotation2(duration: Long = -1L, runnable: (() -> Unit)? = null) {
     val a = this.animate().rotationBy(180f)
-            .scaleX(1.4f).scaleY(1.4f)
+        .scaleX(1.4f).scaleY(1.4f)
     if (duration > 0)
         a.duration = duration
     a.setInterpolator(LinearOutSlowInInterpolator())
-            .withEndAction {
-                val ani = this.animate()
-                        .rotationBy(180f)
-                        .scaleX(1f).scaleY(1f)
-                if (runnable != null)
-                //.withEndAction { btn.animate().rotation(0f).setDuration(10).start() }
-                    ani.withEndAction(runnable)
-                ani.start()
-            }
-            .start()
+        .withEndAction {
+            val ani = this.animate()
+                .rotationBy(180f)
+                .scaleX(1f).scaleY(1f)
+            if (runnable != null)
+            //.withEndAction { btn.animate().rotation(0f).setDuration(10).start() }
+                ani.withEndAction(runnable)
+            ani.start()
+        }
+        .start()
 }
 
 

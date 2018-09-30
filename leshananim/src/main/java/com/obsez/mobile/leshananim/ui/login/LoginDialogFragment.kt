@@ -27,7 +27,7 @@ class LoginBottomSheetDialogFragment : BottomSheetDialogFragment() {
         mBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
     }
     
-    fun doclick(_: View) {
+    fun doclick(view: View) {
         //点击任意布局关闭
         mBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
     }

@@ -22,7 +22,7 @@ import android.database.sqlite.SQLiteDatabase
 
 
 inline fun Cursor.getString(columnName: String): String =
-        getStringOrNull(columnName)!!
+    getStringOrNull(columnName)!!
 
 inline fun Cursor.getStringOrNull(columnName: String): String? {
     val index = getColumnIndexOrThrow(columnName)

@@ -10,7 +10,6 @@ import android.content.CursorLoader
 import android.content.Loader
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -70,9 +69,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok) {
-                        requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS)
-                    }
+                .setAction(android.R.string.ok) {
+                    requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS)
+                }
         } else {
             requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS)
         }
@@ -179,23 +178,23 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             
             login_form.visibility = if (show) View.GONE else View.VISIBLE
             login_form.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha((if (show) 0 else 1).toFloat())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            login_form.visibility = if (show) View.GONE else View.VISIBLE
-                        }
-                    })
+                .setDuration(shortAnimTime)
+                .alpha((if (show) 0 else 1).toFloat())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        login_form.visibility = if (show) View.GONE else View.VISIBLE
+                    }
+                })
             
             login_progress.visibility = if (show) View.VISIBLE else View.GONE
             login_progress.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha((if (show) 1 else 0).toFloat())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            login_progress.visibility = if (show) View.VISIBLE else View.GONE
-                        }
-                    })
+                .setDuration(shortAnimTime)
+                .alpha((if (show) 1 else 0).toFloat())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        login_progress.visibility = if (show) View.VISIBLE else View.GONE
+                    }
+                })
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
@@ -206,14 +205,14 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     
     object ProfileQuery {
         val PROJECTION = arrayOf(
-                ContactsContract.Contacts._ID,
-                ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER,
-                ContactsContract.CommonDataKinds.Organization.DATA
-                //ContactsContract.CommonDataKinds.Phone.NUMBER,
-                //ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ////ContactsContract.CommonDataKinds.Email.ADDRESS,
-                //ContactsContract.CommonDataKinds.Email.IS_PRIMARY
+            ContactsContract.Contacts._ID,
+            ContactsContract.Contacts.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.CommonDataKinds.Organization.DATA
+            //ContactsContract.CommonDataKinds.Phone.NUMBER,
+            //ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ////ContactsContract.CommonDataKinds.Email.ADDRESS,
+            //ContactsContract.CommonDataKinds.Email.IS_PRIMARY
         )
         val ADDRESS = 0
         val IS_PRIMARY = 2
@@ -222,27 +221,27 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     
     override fun onCreateLoader(i: Int, bundle: Bundle?): Loader<Cursor> {
         return CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                //Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                //        ContactsContract.Contacts.Data.CONTENT_DIRECTORY),
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                
-                null,//ProfileQuery.PROJECTION,
-                
-                // Select only email addresses.
-                //ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",
-                "("+
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + ContactsContract.Contacts._ID + " AND " +
-                        ContactsContract.Data.CONTACT_ID + " = " + ContactsContract.Contacts._ID +
-                        //" AND " + ContactsContract.Data.MIMETYPE + " = '" + ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE + "'" +
-                        ")",
-                null, "DISPLAY_NAME ASC")
-//                arrayOf(// ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE,
-//                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE),
-//
-//                // Show primary email addresses first. Note that there won't be
-//                // a primary email address if the user hasn't specified one.
-//                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC")
+            // Retrieve data rows for the device user's 'profile' contact.
+            //Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
+            //        ContactsContract.Contacts.Data.CONTENT_DIRECTORY),
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            
+            null, //ProfileQuery.PROJECTION,
+            
+            // Select only email addresses.
+            //ContactsContract.CommonDataKinds.Phone.NUMBER + " = ?",
+            "(" +
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + ContactsContract.Contacts._ID + " AND " +
+                ContactsContract.Data.CONTACT_ID + " = " + ContactsContract.Contacts._ID +
+                //" AND " + ContactsContract.Data.MIMETYPE + " = '" + ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE + "'" +
+                ")",
+            null, "DISPLAY_NAME ASC")
+        //                arrayOf(// ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE,
+        //                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE),
+        //
+        //                // Show primary email addresses first. Note that there won't be
+        //                // a primary email address if the user hasn't specified one.
+        //                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC")
     }
     
     override fun onLoadFinished(cursorLoader: Loader<Cursor>, cursor: Cursor) {
@@ -250,9 +249,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             val name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-            val phone =cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-            if(!phone.isNullOrBlank())
-            emails.add(phone)
+            val phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+            if (!phone.isNullOrBlank())
+                emails.add(phone)
             Timber.d("    - loop contact: $name, $phone")
             cursor.moveToNext()
         }
@@ -267,7 +266,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     private fun addEmailsToAutoComplete(emailAddressCollection: List<String>) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         val adapter = ArrayAdapter(this@LoginActivity,
-                android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
+            android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
         
         email.setAdapter(adapter)
     }
@@ -289,12 +288,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             }
             
             return DUMMY_CREDENTIALS
-                    .map { it.split(":") }
-                    .firstOrNull { it[0] == mEmail }
-                    ?.let {
-                        // Account exists, return true if the password matches.
-                        it[1] == mPassword
-                    }
+                .map { it.split(":") }
+                .firstOrNull { it[0] == mEmail }
+                ?.let {
+                    // Account exists, return true if the password matches.
+                    it[1] == mPassword
+                }
                 ?: true
         }
         

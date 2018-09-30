@@ -68,7 +68,7 @@ public class TypeConverter {
     public static String jsonStringToString(final String jsonString) {
         if (jsonString.startsWith("\"") && jsonString.endsWith("\"")) {
             return jsonString.substring(1,
-                    jsonString.length() - 1);
+                jsonString.length() - 1);
         }
         if (jsonString.startsWith("\"")) return jsonString.substring(1);
         if (jsonString.endsWith("\"")) return jsonString.substring(0, jsonString.length() - 1);
@@ -135,7 +135,7 @@ public class TypeConverter {
 
     // Set pattern to null if you want the original format
     public static String formatHexString(final String value, final int decimals,
-            @Nullable final String pattern) {
+        @Nullable final String pattern) {
         final String decimalValue = StringHexToBigInteger(value).toString();
         final DecimalFormat df = getDecimalFormat(pattern);
         if (decimals > 0) {
@@ -150,12 +150,12 @@ public class TypeConverter {
         final char separator = LocaleUtil.getDecimalFormatSymbols().getMonetaryDecimalSeparator();
         final String paddingFormat = "%0" + decimals + "d";
         final String paddedDecimalValue = String.format(LocaleUtil.getLocale(), paddingFormat,
-                new BigInteger(decimalValue));
+            new BigInteger(decimalValue));
         final int decimalPosition = paddedDecimalValue.length() - decimals;
         return BigDecimalUtil.createSafeBigDecimal(
-                new StringBuilder(paddedDecimalValue)
-                        .insert(decimalPosition, separator)
-                        .toString()
+            new StringBuilder(paddedDecimalValue)
+                .insert(decimalPosition, separator)
+                .toString()
         ).stripTrailingZeros();
     }
 

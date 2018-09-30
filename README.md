@@ -20,6 +20,16 @@ implementation 'com.obsez.mobile.meijue.ui:meijue-ui:$meijue_ui_version'
 
 #### or, jitpack
 
+To get all available imports, lookup: https://jitpack.io/#hedzr/meijue-ui
+
+
+```gradle
+implementation 'com.github.hedzr:meijue-ui:master-SNAPSHOT'
+// or:
+// implementation 'com.github.hedzr:meijue-ui:release~v1.1.6'
+```
+
+
 ### 2. initialize meijue-ui module in your app:
 
 ```java
@@ -92,6 +102,46 @@ class MainActivity: AppCompatActivity() {
     }
 }
 ```
+
+### using `HandsetPlugDetectReceiver`
+
+1. declare the permissions in `AndroidManifest.xml`:
+   ```xml
+       <uses-permission android:name="android.permission.BLUETOOTH" />
+   ```
+
+2. declare the receiver in `AndroidManifest.xml`:
+   ```xml
+       <receiver
+           android:name=".HandsetPlugDetectReceiver"
+           android:enabled="true"
+           android:exported="true" />
+   ```
+
+2. register `HandsetPlugDetectReceiver` in your MainActivity:
+
+   ```kotlin
+       override fun onCreate(savedInstanceState: Bundle?) {
+           super.onCreate(savedInstanceState)
+           setContentView(R.layout.activity_main)
+           //setSupportActionBar(toolbar)
+           checkHandsetStatus()
+       }
+
+       private fun checkHandsetStatus(){
+           HandsetPlugDetectReceiver.register(this) {
+               snackBar("headset present: $it (recheck: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}), bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
+           }
+           Timber.v("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}")
+           Timber.v("bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}")
+           snackBar("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}, bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
+       }
+
+       override fun onDestroy() {
+           super.onDestroy()
+           HandsetPlugDetectReceiver.unregister(this)
+       }
+   ```
 
 
 ## Documentations

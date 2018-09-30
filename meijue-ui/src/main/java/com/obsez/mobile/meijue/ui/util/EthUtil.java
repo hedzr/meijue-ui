@@ -30,9 +30,9 @@ public class EthUtil {
 
     public static String ethAmountToUserVisibleString(final BigDecimal eth) {
         return String.format(
-                LocaleUtil.getLocale(),
-                USER_VISIBLE_STRING_FORMATTING,
-                eth.setScale(NUM_ETH_DECIMAL_PLACES, BigDecimal.ROUND_DOWN));
+            LocaleUtil.getLocale(),
+            USER_VISIBLE_STRING_FORMATTING,
+            eth.setScale(NUM_ETH_DECIMAL_PLACES, BigDecimal.ROUND_DOWN));
     }
 
     public static BigDecimal weiToEth(final BigInteger wei) {
@@ -40,8 +40,8 @@ public class EthUtil {
             return BigDecimal.ZERO;
         }
         return new BigDecimal(wei)
-                .divide(weiToEthRatio)
-                .setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_DOWN);
+            .divide(weiToEthRatio)
+            .setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_DOWN);
     }
 
     public static BigInteger ethToWei(final BigDecimal amountInEth) {
@@ -50,8 +50,8 @@ public class EthUtil {
 
     public static BigInteger ethToWei(final String amountInEth, final int decimals) {
         return new BigDecimal(amountInEth)
-                .multiply(new BigDecimal("10")
-                        .pow(decimals)).toBigInteger();
+            .multiply(new BigDecimal("10")
+                .pow(decimals)).toBigInteger();
     }
 
     public static String encodeToHex(final String value) throws NumberFormatException, NullPointerException {

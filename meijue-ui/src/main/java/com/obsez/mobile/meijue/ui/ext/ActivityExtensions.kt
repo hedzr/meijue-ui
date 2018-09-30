@@ -36,7 +36,7 @@ fun Activity.hideKeyboard(): Boolean {
     view?.let {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         return inputMethodManager.hideSoftInputFromWindow(view.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS)
+            InputMethodManager.HIDE_NOT_ALWAYS)
     }
     return false
 }
