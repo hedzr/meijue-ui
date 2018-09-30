@@ -90,9 +90,9 @@ public class SharedPreferenceProxy implements SharedPreferences {
         input.putString(OpEntry.KEY_KEY, key);
         try {
             Bundle res = ctx.getContentResolver().call(PreferenceUtil.URI
-                    , PreferenceUtil.METHOD_CONTAIN_KEY
-                    , preferName
-                    , input);
+                , PreferenceUtil.METHOD_CONTAIN_KEY
+                , preferName
+                , input);
             return res.getBoolean(PreferenceUtil.KEY_VALUES);
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,9 +118,9 @@ public class SharedPreferenceProxy implements SharedPreferences {
     private OpEntry getResult(@NonNull OpEntry input) {
         try {
             Bundle res = ctx.getContentResolver().call(PreferenceUtil.URI
-                    , PreferenceUtil.METHOD_QUERY_VALUE
-                    , preferName
-                    , input.getBundle());
+                , PreferenceUtil.METHOD_QUERY_VALUE
+                , preferName
+                , input.getBundle());
             return new OpEntry(res);
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,7 +186,7 @@ public class SharedPreferenceProxy implements SharedPreferences {
             Bundle res = null;
             try {
                 res = ctx.getContentResolver().call(PreferenceUtil.URI, PreferenceUtil.METHOD_EIDIT_VALUE,
-                        preferName, input);
+                    preferName, input);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -203,7 +203,7 @@ public class SharedPreferenceProxy implements SharedPreferences {
             intput.putInt(OpEntry.KEY_OP_TYPE, OpEntry.OP_TYPE_APPLY);
             try {
                 ctx.getContentResolver().call(PreferenceUtil.URI, PreferenceUtil.METHOD_EIDIT_VALUE, preferName,
-                        intput);
+                    intput);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -232,7 +232,7 @@ public class SharedPreferenceProxy implements SharedPreferences {
         //First check if the same process
         if (processFlag.get() == 0) {
             Bundle bundle = ctx.getContentResolver().call(PreferenceUtil.URI,
-                    PreferenceUtil.METHOD_QUERY_PID, "", null);
+                PreferenceUtil.METHOD_QUERY_PID, "", null);
             int pid = 0;
             if (bundle != null) {
                 pid = bundle.getInt(PreferenceUtil.KEY_VALUES);

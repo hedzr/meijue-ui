@@ -110,22 +110,22 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
                 }
                 
                 it.animate()
-                        .translationY(0f)
-                        .setDuration(ANIM_DURATION_TOOLBAR)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                postIntroAnimation()
-                                startContentAnimation()
-                            }
-                        })
-                        .startDelay = 300L
+                    .translationY(0f)
+                    .setDuration(ANIM_DURATION_TOOLBAR)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            postIntroAnimation()
+                            startContentAnimation()
+                        }
+                    })
+                    .startDelay = 300L
             }
             
             titleView?.let {
                 it.animate()
-                        .translationY(0f)
-                        .setDuration(ANIM_DURATION_TOOLBAR)
-                        .startDelay = 400L
+                    .translationY(0f)
+                    .setDuration(ANIM_DURATION_TOOLBAR)
+                    .startDelay = 400L
             }
             //Timber.d("Toolbar textView animation: i=$i, v: $v")
         } else {
@@ -149,16 +149,16 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
         if (fabUi != null) {
             fabUi?.let {
                 it.animate()
-                        .translationY(0f)
-                        .setInterpolator(OvershootInterpolator(1f))
-                        .setStartDelay(300)
-                        .setDuration(ANIM_DURATION_FAB)
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                postContentAnimation()
-                            }
-                        })
-                        .start()
+                    .translationY(0f)
+                    .setInterpolator(OvershootInterpolator(1f))
+                    .setStartDelay(300)
+                    .setDuration(ANIM_DURATION_FAB)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            postContentAnimation()
+                        }
+                    })
+                    .start()
             }
         } else {
             postContentAnimation()

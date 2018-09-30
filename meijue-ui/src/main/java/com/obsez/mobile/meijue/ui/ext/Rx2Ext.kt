@@ -52,7 +52,7 @@ object Preconditions {
     fun checkUiThread() {
         if (Looper.getMainLooper() != Looper.myLooper()) {
             throw IllegalStateException(
-                    "Must be called from the main thread. Was: " + Thread.currentThread())
+                "Must be called from the main thread. Was: " + Thread.currentThread())
         }
     }
 }

@@ -92,11 +92,11 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
         
         // TODO: Customize parameters
         fun newInstance(itemCount: Int): ItemListDialogFragment =
-                ItemListDialogFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_ITEM_COUNT, itemCount)
-                    }
+            ItemListDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_ITEM_COUNT, itemCount)
                 }
+            }
         
     }
 }

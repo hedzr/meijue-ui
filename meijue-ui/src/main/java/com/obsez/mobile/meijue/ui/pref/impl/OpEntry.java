@@ -153,24 +153,24 @@ class OpEntry {
 
     static OpEntry obtainGetOperation(String key) {
         return new OpEntry()
-                .setKey(key)
-                .setOpType(OP_TYPE_GET);
+            .setKey(key)
+            .setOpType(OP_TYPE_GET);
     }
 
     static OpEntry obtainPutOperation(String key) {
         return new OpEntry()
-                .setKey(key)
-                .setOpType(OP_TYPE_PUT);
+            .setKey(key)
+            .setOpType(OP_TYPE_PUT);
     }
 
     static OpEntry obtainRemoveOperation(String key) {
         return new OpEntry()
-                .setKey(key)
-                .setOpType(OP_TYPE_REMOVE);
+            .setKey(key)
+            .setOpType(OP_TYPE_REMOVE);
     }
 
     static OpEntry obtainClear() {
         return new OpEntry()
-                .setOpType(OP_TYPE_CLEAR);
+            .setOpType(OP_TYPE_CLEAR);
     }
 }

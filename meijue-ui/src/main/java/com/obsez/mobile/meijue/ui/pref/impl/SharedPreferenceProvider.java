@@ -42,7 +42,7 @@ public class SharedPreferenceProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
-            @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         throw new UnsupportedOperationException();
     }
 
@@ -65,7 +65,7 @@ public class SharedPreferenceProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection,
-            @Nullable String[] selectionArgs) {
+        @Nullable String[] selectionArgs) {
         throw new UnsupportedOperationException();
     }
 

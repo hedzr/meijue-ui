@@ -10,14 +10,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.obsez.mobile.leshananim.ui.login.LoginActivity
 import com.obsez.mobile.leshananim.ui.login.LoginBottomSheetDialogFragment
 import com.obsez.mobile.leshananim.ui.settings.SettingsActivity
 import com.obsez.mobile.meijue.ui.ToolbarAnimActivity
+import com.obsez.mobile.meijue.ui.ext.snackBar
 import com.obsez.mobile.meijue.ui.ext.startActivity
 import kotlinx.android.synthetic.main.activity_main.*
-//import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelectedListener {
     
@@ -27,7 +26,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
     
     override val navDrawerUi: NavigationView? by lazy { nav_view }
     
-    override val drawerLayoutUi: DrawerLayout? by lazy{ drawer_layout }
+    override val drawerLayoutUi: DrawerLayout? by lazy { drawer_layout }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +47,19 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
     }
     
     override fun setupFab() {
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener {
+            //view ->
+            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            //        .setAction("Action", null).show()
+            snackBar("Replace with your own action", Snackbar.LENGTH_LONG) {
+                setAction("Action", null)
+            }
         }
     }
     
     override fun setupNavDrawer() {
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         
@@ -94,7 +97,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
     
-    private fun showLoginBottomSheetDialog() : Boolean {
+    private fun showLoginBottomSheetDialog(): Boolean {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.login_bottom_sheet_dialog, null)
         dialog.setContentView(view)
@@ -109,7 +112,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
                 // Handle the camera action
                 
                 // ext.startActivity
-                startActivity<Main2Activity>()
+                startActivity<MainBnvActivity>()
             }
             R.id.nav_gallery -> {
                 startActivity<SettingsActivity>()

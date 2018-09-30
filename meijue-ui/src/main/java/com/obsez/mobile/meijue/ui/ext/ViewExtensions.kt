@@ -76,14 +76,14 @@ fun View.slideEnter() {
 
 fun View.fadeOut(duration: Long = 500): ViewPropertyAnimator {
     return animate()
-            .alpha(0.0f)
-            .setDuration(duration)
+        .alpha(0.0f)
+        .setDuration(duration)
 }
 
 fun View.fadeIn(duration: Long = 500): ViewPropertyAnimator {
     return animate()
-            .alpha(1.0f)
-            .setDuration(duration)
+        .alpha(1.0f)
+        .setDuration(duration)
 }
 
 
@@ -94,10 +94,10 @@ fun View.setMargins(l: Int = -1, t: Int = -1, r: Int = -1, b: Int = -1) {
     if (layoutParams is ViewGroup.MarginLayoutParams) {
         val p = layoutParams as ViewGroup.MarginLayoutParams
         p.setMargins(
-                if (l != -1) l else p.leftMargin,
-                if (t != -1) t else p.topMargin,
-                if (r != -1) r else p.rightMargin,
-                if (b != -1) b else p.bottomMargin
+            if (l != -1) l else p.leftMargin,
+            if (t != -1) t else p.topMargin,
+            if (r != -1) r else p.rightMargin,
+            if (b != -1) b else p.bottomMargin
         )
         requestLayout()
     }
@@ -110,10 +110,10 @@ fun View.setMarginsInDp(l: Int = -1, t: Int = -1, r: Int = -1, b: Int = -1) {
     if (layoutParams is ViewGroup.MarginLayoutParams) {
         val p = layoutParams as ViewGroup.MarginLayoutParams
         p.setMargins(
-                if (l != -1) Utils.dp2px(l) else p.leftMargin,
-                if (t != -1) Utils.dp2px(t) else p.topMargin,
-                if (r != -1) Utils.dp2px(r) else p.rightMargin,
-                if (b != -1) Utils.dp2px(b) else p.bottomMargin
+            if (l != -1) Utils.dp2px(l) else p.leftMargin,
+            if (t != -1) Utils.dp2px(t) else p.topMargin,
+            if (r != -1) Utils.dp2px(r) else p.rightMargin,
+            if (b != -1) Utils.dp2px(b) else p.bottomMargin
         )
         requestLayout()
     }
@@ -201,7 +201,7 @@ fun ViewGroup.asSequence(): Sequence<View> = object : Sequence<View> {
  */
 
 inline fun ViewGroup.inflate(@LayoutRes l: Int): View =
-        LayoutInflater.from(context).inflate(l, this, false)
+    LayoutInflater.from(context).inflate(l, this, false)
 
 inline operator fun ViewGroup.get(i: Int): View? = getChildAt(i)
 

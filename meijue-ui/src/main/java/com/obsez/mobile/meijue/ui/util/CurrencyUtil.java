@@ -12,7 +12,7 @@ public class CurrencyUtil {
 
     public static DecimalFormat getNumberFormat() {
         final DecimalFormat numberFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(
-                LocaleUtil.getLocale());
+            LocaleUtil.getLocale());
         final DecimalFormatSymbols symbols = numberFormat.getDecimalFormatSymbols();
         symbols.setCurrencySymbol("");
         numberFormat.setDecimalFormatSymbols(symbols);

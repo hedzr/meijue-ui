@@ -15,7 +15,7 @@ public class LocaleUtil {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 return MeijueUiAppModule.get().getContext().getResources().getConfiguration().getLocales().get(
-                        0);
+                    0);
             } else {
                 return MeijueUiAppModule.get().getContext().getResources().getConfiguration().locale;
             }

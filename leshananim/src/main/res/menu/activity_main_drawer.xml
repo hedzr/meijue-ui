@@ -14,7 +14,7 @@
             android:title="Gallery"/>
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_sync_black_24dp"
             android:title="Slideshow"/>
         <item
             android:id="@+id/nav_manage"
