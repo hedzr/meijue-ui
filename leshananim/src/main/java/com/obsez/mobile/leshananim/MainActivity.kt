@@ -16,7 +16,9 @@ import com.obsez.mobile.leshananim.ui.settings.SettingsActivity
 import com.obsez.mobile.meijue.ui.ToolbarAnimActivity
 import com.obsez.mobile.meijue.ui.ext.snackBar
 import com.obsez.mobile.meijue.ui.ext.startActivity
+import com.obsez.mobile.meijue.ui.receivers.HandsetPlugDetectReceiver
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelectedListener {
     
@@ -44,11 +46,28 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         //        toggle.syncState()
         //
         //        nav_view.setNavigationItemSelectedListener(this)
+
+
+        checkHandsetStatus()
     }
-    
+
+    private fun checkHandsetStatus(){
+        HandsetPlugDetectReceiver.register(this) {
+            snackBar("headset present: $it (recheck: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}), bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
+        }
+        Timber.v("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}")
+        Timber.v("bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}")
+        snackBar("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}, bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        HandsetPlugDetectReceiver.unregister(this)
+    }
+
+
     override fun setupFab() {
-        fab.setOnClickListener {
-            //view ->
+        fab.setOnClickListener { //view ->
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             //        .setAction("Action", null).show()
             snackBar("Replace with your own action", Snackbar.LENGTH_LONG) {
