@@ -2,7 +2,7 @@
 
 ext {
 
-    supports_lib_version = "28.0.0-rc01" //"""28.0.0-beta01"
+    supports_lib_version = "28.0.0" //"""28.0.0-beta01"
     arch_runtime_version = "1.1.1" //"1.0.3"
     arch_version = "1.1.1" //"1.0.0"
     arch_room_version = "1.1.1"
