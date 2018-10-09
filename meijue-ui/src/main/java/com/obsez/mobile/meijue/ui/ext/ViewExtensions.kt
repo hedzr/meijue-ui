@@ -4,10 +4,6 @@ package com.obsez.mobile.meijue.ui.ext
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.annotation.*
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v7.content.res.AppCompatResources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +11,13 @@ import android.view.ViewPropertyAnimator
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.*
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.google.android.material.snackbar.Snackbar
 import com.obsez.mobile.meijue.ui.util.Utils
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -208,27 +208,27 @@ inline operator fun ViewGroup.get(i: Int): View? = getChildAt(i)
 /**
  * -=
  */
-inline operator fun ViewGroup.minusAssign(child: View) = removeView(child)
+inline operator fun ViewGroup.minusAssign(@NonNull child: View) = removeView(child)
 
 /**
  * +=
  */
-inline operator fun ViewGroup.plusAssign(child: View) = addView(child)
+inline operator fun ViewGroup.plusAssign(@NonNull child: View) = addView(child)
 
 /**
  * if (viwe in views)
  */
-inline fun ViewGroup.contains(child: View) = indexOfChild(child) != -1
+inline fun ViewGroup.contains(@NonNull child: View) = indexOfChild(child) != -1
 
 inline fun ViewGroup.first(): View? = this[0]
 
-inline fun ViewGroup.forEach(action: (View) -> Unit) {
+inline fun ViewGroup.forEach(@NonNull action: (View) -> Unit) {
     for (i in 0 until childCount) {
         action(getChildAt(i))
     }
 }
 
-inline fun ViewGroup.forEachIndexed(action: (Int, View) -> Unit) {
+inline fun ViewGroup.forEachIndexed(@NonNull action: (Int, View) -> Unit) {
     for (i in 0 until childCount) {
         action(i, getChildAt(i))
     }
@@ -246,8 +246,12 @@ inline fun ViewGroup.children() = object : Iterable<View> {
 }
 
 
-fun ImageView.loadUrlViaPicasso(url: String, func: RequestCreator.() -> RequestCreator) {
-    Picasso.with(context).load(url).func().into(this)
+fun ImageView.loadUrlViaPicasso(url: String, func: (RequestCreator.() -> RequestCreator)? = null) {
+    val rc = Picasso.with(context).load(url)
+    if (func != null) {
+        rc.func()
+    }
+    rc.into(this)
 }
 
 /**
@@ -261,8 +265,10 @@ fun ImageView.loadUrlViaPicasso(url: String, func: RequestCreator.() -> RequestC
  * }
  *
  */
-fun ImageView.loadUrlViaGlide(url: String, func: RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>) {
-    Glide.with(context).load(url).func().into(this)
+fun ImageView.loadUrlViaGlide(url: String, func: (RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>)? = null) {
+    val rb = Glide.with(context).load(url)
+    func?.let { rb.it() }
+    rb.into(this)
 }
 
 /**
@@ -275,9 +281,13 @@ fun ImageView.loadUrlViaGlide(url: String, func: RequestBuilder<Drawable>.() -> 
  * TODO 完整地支持 Fresco 需要以后安排时间
  *
  */
-fun ImageView.loadUrlViaFresco(url: String, func: RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>) {
+fun ImageView.loadUrlViaFresco(url: String, func: (RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>)? = null) {
     Fresco.initialize(this.context)
-    Glide.with(context).load(url).func().into(this)
+    val rb = Glide.with(context).load(url)
+    if (func != null) {
+        rb.func()
+    }
+    rb.into(this)
 }
 
 

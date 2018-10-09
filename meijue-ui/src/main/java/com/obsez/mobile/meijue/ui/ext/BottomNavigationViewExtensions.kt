@@ -1,15 +1,17 @@
 package com.obsez.mobile.meijue.ui.ext
 
+//import android.support.design.internal.BottomNavigationItemView
+//import android.support.design.internal.BottomNavigationMenuView
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Typeface
-import android.support.design.internal.BottomNavigationItemView
-import android.support.design.internal.BottomNavigationMenuView
-import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.obsez.mobile.meijue.ui.util.Utils.dp2px
 
 

@@ -38,7 +38,6 @@ import android.os.*
 import android.os.storage.StorageManager
 import android.print.PrintManager
 import android.service.wallpaper.WallpaperService
-import android.support.annotation.RequiresApi
 import android.telecom.TelecomManager
 import android.telephony.CarrierConfigManager
 import android.telephony.SubscriptionManager
@@ -49,6 +48,7 @@ import android.view.accessibility.AccessibilityManager
 import android.view.accessibility.CaptioningManager
 import android.view.inputmethod.InputMethodManager
 import android.view.textservice.TextServicesManager
+import androidx.annotation.RequiresApi
 
 inline fun Context.getActivityManager() = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 inline fun Context.getAlarmManager() = getSystemService(Context.ALARM_SERVICE) as AlarmManager

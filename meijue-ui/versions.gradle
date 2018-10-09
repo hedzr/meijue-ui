@@ -2,10 +2,12 @@
 
 ext {
 
-    supports_lib_version = "28.0.0" //"""28.0.0-beta01"
-    arch_runtime_version = "1.1.1" //"1.0.3"
-    arch_version = "1.1.1" //"1.0.0"
-    arch_room_version = "1.1.1"
+    supports_lib_version = "28.0.0" //"28.0.0-beta01"
+
+    arch_runtime_version = "2.0.0" //"1.1.1" //"1.0.3"
+    arch_version = "2.0.0"
+    arch_room_version = "2.0.0"
+
     dagger_version = "2.16"
     moshi_version = "1.6.0"
     retrofit_version = "2.4.0"

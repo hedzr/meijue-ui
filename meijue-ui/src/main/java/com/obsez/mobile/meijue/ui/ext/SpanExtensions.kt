@@ -10,12 +10,12 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.StyleRes
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.*
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StyleRes
 import com.bumptech.glide.Glide
 
 

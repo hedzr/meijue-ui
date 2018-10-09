@@ -1,11 +1,12 @@
 package com.obsez.mobile.meijue.ui.pref.impl;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
 
 
 class OpEntry {

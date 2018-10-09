@@ -6,19 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.support.annotation.*
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.content.res.AppCompatResources
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.annotations.NotNull
 
 
@@ -102,10 +101,10 @@ inline fun <reified T> Activity.startActivity() = startActivity(Intent(this, T::
  *
  */
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
-inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: android.support.v4.util.Pair<View, String>, func: (Intent.() -> Intent)) {
+inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: androidx.core.util.Pair<View, String>, noinline func: (Intent.() -> Intent)? = null) {
     val intent = Intent(this, T::class.java)
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements)
-    intent.func()
+    if (func != null) intent.func()
     startActivity(intent, options.toBundle())
 }
 
@@ -118,19 +117,20 @@ inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: 
  * }
  *
  */
-inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: View?, func: (Intent.() -> Intent)) {
+inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: View?, noinline func: (Intent.() -> Intent)? = null) {
     val intent = Intent(this, T::class.java)
     //val elements = emptyArray<Pair<View, String>>()
-    val elements = Array(sharedElements.size) { android.support.v4.util.Pair(this.rootContentView, "") }
+    val elements = Array(sharedElements.size) { androidx.core.util.Pair(this.rootContentView, "") }
     for (i in 0 until sharedElements.size) {
-        sharedElements[i]?.let { elements[i] = android.support.v4.util.Pair(it, ViewCompat.getTransitionName(it)) }
+        sharedElements[i]?.let { elements[i] = androidx.core.util.Pair(it, ViewCompat.getTransitionName(it)) }
     }
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *elements)
-    startActivity(intent.func(), options.toBundle())
+    if (func != null) intent.func()
+    startActivity(intent, options.toBundle())
 }
 
-inline fun <reified T> Activity.startActivityAndFinish(func: Intent.() -> Intent) {
-    startActivity(Intent(this, T::class.java).func())
+inline fun <reified T> Activity.startActivityAndFinish(noinline func: (Intent.() -> Intent)? = null) {
+    startActivity(func?.let { Intent(this, T::class.java).it() })
     finish()
 }
 
@@ -139,12 +139,13 @@ inline fun <reified T> Activity.startActivityAndFinish() {
     finish()
 }
 
-inline fun <reified T> Activity.startActivityForResult(requestCode: Int, func: Intent.() -> Intent) {
-    startActivityForResult(Intent(this, T::class.java).func(), requestCode)
+inline fun <reified T> Activity.startActivityForResult(requestCode: Int, noinline func: (Intent.() -> Intent)? = null) {
+    startActivityForResult(func?.let { Intent(this, T::class.java).it() }, requestCode)
 }
 
-inline fun Activity.setActivityResultAndFinish(resultCode: Int, func: Intent.() -> Intent) {
-    setResult(resultCode, intent.func())
+@Suppress("NOTHING_TO_INLINE")
+inline fun Activity.setActivityResultAndFinish(resultCode: Int, noinline func: (Intent.() -> Intent)? = null) {
+    setResult(resultCode, func?.let { intent.it() })
     finish()
 }
 
@@ -208,7 +209,7 @@ fun Activity.setTranslucentMode(translucentMode: Boolean = true) {
  * `setContentFragment` enable you load certain a Fragment right away after `setContentView` done.
  *
  */
-inline fun android.support.v4.app.FragmentActivity.setContentFragment(containerViewId: Int, f: () -> Fragment): Fragment? {
+inline fun androidx.fragment.app.FragmentActivity.setContentFragment(containerViewId: Int, f: () -> androidx.fragment.app.Fragment): androidx.fragment.app.Fragment? {
     val manager = supportFragmentManager
     val fragment = manager?.findFragmentById(containerViewId)
     fragment?.let { return it }

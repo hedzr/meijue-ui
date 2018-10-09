@@ -127,13 +127,10 @@ fun String.sha1(): String {
 }
 
 
-fun String.toRadix31Integer(): Int {
-    return Radix31.stringToJava31radix(this)
-}
+fun String.toRadix31Integer(): Int = Radix31.stringToJava31radix(this)
 
-fun Int.toRadix31String(): String {
-    return Radix31.intToJava31radix(this)
-}
+fun Int.toRadix31String(): String = Radix31.intToJava31radix(this)
+
 
 
 

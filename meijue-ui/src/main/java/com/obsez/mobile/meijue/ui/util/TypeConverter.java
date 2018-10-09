@@ -1,7 +1,5 @@
 package com.obsez.mobile.meijue.ui.util;
 
-import android.support.annotation.Nullable;
-
 import com.obsez.mobile.meijue.ui.ext.BigDecimalUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -9,6 +7,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+
+import androidx.annotation.Nullable;
 
 //import org.spongycastle.util.encoders.Hex;
 
