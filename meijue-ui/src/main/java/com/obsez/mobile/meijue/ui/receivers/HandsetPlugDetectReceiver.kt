@@ -29,34 +29,34 @@ import java.io.FileReader
  *
  */
 class HandsetPlugDetectReceiver : BroadcastReceiver() {
-
+    
     private var mCallback: ((connected: Boolean) -> Unit)? = null
-
+    
     companion object {
         private val instance by lazy { HandsetPlugDetectReceiver() }
-
+        
         val isRegistered: Boolean = instance.mCallback != null
-
+        
         fun register(a: Activity, callback: ((connected: Boolean) -> Unit)? = null) {
             if (isRegistered) {
                 throw IllegalArgumentException("multiple register calls")
             }
-
+            
             instance.mCallback = callback
-
+            
             val intentFilter = IntentFilter()
             intentFilter.addAction(Intent.ACTION_HEADSET_PLUG)
             intentFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
             a.registerReceiver(instance, intentFilter)
         }
-
+        
         fun unregister(a: Activity) {
             a.unregisterReceiver(instance)
             instance.mCallback = null
         }
-
+        
         private const val HEADSET_STATE_PATH = "/sys/class/switch/h2w/state"
-
+        
         val isHandsetPresent: Boolean
             get() {
                 val buffer = CharArray(1024)
@@ -73,8 +73,8 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
                 // 0：无插入，1：耳机和话筒均插入，2：仅插入话筒。
                 return newState != 0
             }
-
-
+        
+        
         /**
          * need declaration:
          * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -83,7 +83,7 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
             val audoManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             return audoManager.isWiredHeadsetOn
         }
-
+        
         /**
          * need declaration:
          * <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -92,7 +92,7 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
          */
         fun getHeadsetStatus(context: Context): Boolean {
             val audoManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
+            
             //      IntentFilter iFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
             //      Intent iStatus = registerReceiver(null, iFilter);
             //      boolean isConnected = iStatus.getIntExtra("state", 0) == 1;
@@ -100,11 +100,11 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
             //      if(isConnected){
             //         Toast.makeText(MainActivity.this,"耳机ok",Toast.LENGTH_SHORT).show();
             //      }
-
+            
             return audoManager.isWiredHeadsetOn
         }
-
-
+        
+        
         /**
          * need
          * <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -113,7 +113,7 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
          */
         fun getBlootoothHeadsetStatus(context: Context): Int {
             val ba = BluetoothAdapter.getDefaultAdapter()
-
+            
             // int isBlueCon;//蓝牙适配器是否存在，即是否发生了错误
             if (ba == null) {
                 // isBlueCon = -1;     //error
@@ -122,7 +122,7 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
                 val a2dp = ba.getProfileConnectionState(BluetoothProfile.A2DP)              //可操控蓝牙设备，如带播放暂停功能的蓝牙耳机
                 val headset = ba.getProfileConnectionState(BluetoothProfile.HEADSET)        //蓝牙头戴式耳机，支持语音输入输出
                 val health = ba.getProfileConnectionState(BluetoothProfile.HEALTH)          //蓝牙穿戴式设备
-
+                
                 //查看是否蓝牙是否连接到三种设备的一种，以此来判断是否处于连接状态还是打开并没有连接的状态
                 var flag = -1
                 if (a2dp == BluetoothProfile.STATE_CONNECTED) {
@@ -140,13 +140,13 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
             }
             return -2
         }
-
+        
     }
-
+    
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         //TO/DO("HandsetPlugDetectReceiver.onReceive() is not implemented")
-
+        
         val action = intent.action
         if (Intent.ACTION_HEADSET_PLUG.equals(action)) {
             if (intent.hasExtra("state")) {
@@ -181,5 +181,5 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
             }
         }
     }
-
+    
 }

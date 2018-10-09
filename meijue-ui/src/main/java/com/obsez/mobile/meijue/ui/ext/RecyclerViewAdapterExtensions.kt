@@ -1,21 +1,19 @@
 package com.obsez.mobile.meijue.ui.ext
 
-import android.support.annotation.DrawableRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.OrientationHelper
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.obsez.mobile.meijue.ui.R
 import com.obsez.mobile.meijue.ui.view.HorizontalLineDivider
 
-val <VH : RecyclerView.ViewHolder>RecyclerView.Adapter<VH>.isEmpty: Boolean
+val <VH : androidx.recyclerview.widget.RecyclerView.ViewHolder>androidx.recyclerview.widget.RecyclerView.Adapter<VH>.isEmpty: Boolean
     get() {
         return (this.itemCount == 0)
     }
 
 
-fun RecyclerView.addHorizontalLineDivider(
+fun androidx.recyclerview.widget.RecyclerView.addHorizontalLineDivider(
     leftPadding: Int = getPxSize(R.dimen.avatar_size_small)
         + getPxSize(R.dimen.margin_primary)
         + getPxSize(R.dimen.margin_three_quarters),
@@ -33,21 +31,21 @@ fun RecyclerView.addHorizontalLineDivider(
     return divider
 }
 
-fun RecyclerView.addDivider(@DrawableRes id: Int, orientation: Int = DividerItemDecoration.VERTICAL) {
-    val divider = DividerItemDecoration(context, orientation)
+fun androidx.recyclerview.widget.RecyclerView.addDivider(@DrawableRes id: Int, orientation: Int = androidx.recyclerview.widget.DividerItemDecoration.VERTICAL) {
+    val divider = androidx.recyclerview.widget.DividerItemDecoration(context, orientation)
     divider.setDrawable(ContextCompat.getDrawable(context, id)!!)
     addItemDecoration(divider)
 }
 
 
-fun RecyclerView.findOneVisibleChild(fromIndex: Int, toIndex: Int, completelyVisible: Boolean, acceptPartiallyVisible: Boolean): View? {
+fun androidx.recyclerview.widget.RecyclerView.findOneVisibleChild(fromIndex: Int, toIndex: Int, completelyVisible: Boolean, acceptPartiallyVisible: Boolean): View? {
     if (layoutManager == null)
         return null
     
-    val helper: OrientationHelper = if (layoutManager!!.canScrollVertically()) {
-        OrientationHelper.createVerticalHelper(layoutManager)
+    val helper: androidx.recyclerview.widget.OrientationHelper = if (layoutManager!!.canScrollVertically()) {
+        androidx.recyclerview.widget.OrientationHelper.createVerticalHelper(layoutManager)
     } else {
-        OrientationHelper.createHorizontalHelper(layoutManager)
+        androidx.recyclerview.widget.OrientationHelper.createHorizontalHelper(layoutManager)
     }
     
     val start = helper.startAfterPadding
@@ -75,45 +73,45 @@ fun RecyclerView.findOneVisibleChild(fromIndex: Int, toIndex: Int, completelyVis
     return partiallyVisible
 }
 
-fun RecyclerView.isVisibleItem(position: Int, completelyVisible: Boolean = false, acceptPartiallyVisible: Boolean = false): Boolean {
+fun androidx.recyclerview.widget.RecyclerView.isVisibleItem(position: Int, completelyVisible: Boolean = false, acceptPartiallyVisible: Boolean = false): Boolean {
     val v = findOneVisibleChild(position, position, completelyVisible, acceptPartiallyVisible)
     return v != null
 }
 
-val RecyclerView.firstVisibleItemPosition: Int
+val androidx.recyclerview.widget.RecyclerView.firstVisibleItemPosition: Int
     inline get () {
         layoutManager?.let { lm ->
             val child = findOneVisibleChild(0, lm.childCount, false, true)
-            return if (child == null) RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
+            return if (child == null) androidx.recyclerview.widget.RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
         }
-        return RecyclerView.NO_POSITION
+        return androidx.recyclerview.widget.RecyclerView.NO_POSITION
     }
 
-val RecyclerView.firstCompletelyVisibleItemPosition: Int
+val androidx.recyclerview.widget.RecyclerView.firstCompletelyVisibleItemPosition: Int
     get() {
         layoutManager?.let { lm ->
             val child = findOneVisibleChild(0, lm.childCount, true, false)
-            return if (child == null) RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
+            return if (child == null) androidx.recyclerview.widget.RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
         }
-        return RecyclerView.NO_POSITION
+        return androidx.recyclerview.widget.RecyclerView.NO_POSITION
     }
 
-val RecyclerView.lastVisibleItemPosition: Int
+val androidx.recyclerview.widget.RecyclerView.lastVisibleItemPosition: Int
     get() {
         layoutManager?.let { lm ->
             val child = findOneVisibleChild(lm.childCount - 1, -1, false, true)
-            return if (child == null) RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
+            return if (child == null) androidx.recyclerview.widget.RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
         }
-        return RecyclerView.NO_POSITION
+        return androidx.recyclerview.widget.RecyclerView.NO_POSITION
     }
 
-val RecyclerView.lastCompletelyVisibleItemPosition: Int
+val androidx.recyclerview.widget.RecyclerView.lastCompletelyVisibleItemPosition: Int
     get() {
         layoutManager?.let { lm ->
             val child = findOneVisibleChild(lm.childCount - 1, -1, true, false)
-            return if (child == null) RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
+            return if (child == null) androidx.recyclerview.widget.RecyclerView.NO_POSITION else this.getChildAdapterPosition(child)
         }
-        return RecyclerView.NO_POSITION
+        return androidx.recyclerview.widget.RecyclerView.NO_POSITION
     }
 
 

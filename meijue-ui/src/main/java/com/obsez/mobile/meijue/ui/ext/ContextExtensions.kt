@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import org.jetbrains.annotations.NotNull
 
 

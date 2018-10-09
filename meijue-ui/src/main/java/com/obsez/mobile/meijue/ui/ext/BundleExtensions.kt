@@ -4,9 +4,9 @@ package com.obsez.mobile.meijue.ui.ext
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcelable
-import android.support.v4.app.BundleCompat
 import android.util.Size
 import android.util.SizeF
+import androidx.core.app.BundleCompat
 import java.util.*
 
 

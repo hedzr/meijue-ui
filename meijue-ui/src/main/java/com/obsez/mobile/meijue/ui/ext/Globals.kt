@@ -1,9 +1,7 @@
 package com.obsez.mobile.meijue.ui.ext
 
 import android.graphics.Color
-import android.support.annotation.ColorInt
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.annotation.ColorInt
 import java.text.DateFormat
 import java.util.*
 
@@ -47,13 +45,13 @@ fun Int.withOpacity(/*@IntRange(from = 0, to = 100)*/ opacity: Int): Int {
 /**
  * A value holder that automatically clears the reference if the Fragment's view is destroyed.
  */
-class AutoClearedValue<T>(fragment: Fragment, private var value: T?) {
+class AutoClearedValue<T>(fragment: androidx.fragment.app.Fragment, private var value: T?) {
     
     init {
         val fragmentManager = fragment.fragmentManager!!
         fragmentManager.registerFragmentLifecycleCallbacks(
-            object : FragmentManager.FragmentLifecycleCallbacks() {
-                override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
+            object : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
+                override fun onFragmentViewDestroyed(fm: androidx.fragment.app.FragmentManager, f: androidx.fragment.app.Fragment) {
                     if (f === fragment) {
                         this@AutoClearedValue.value = null
                         fragmentManager.unregisterFragmentLifecycleCallbacks(this)

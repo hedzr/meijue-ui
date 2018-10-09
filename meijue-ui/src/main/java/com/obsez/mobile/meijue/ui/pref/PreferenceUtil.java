@@ -3,9 +3,10 @@ package com.obsez.mobile.meijue.ui.pref;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import com.obsez.mobile.meijue.ui.pref.impl.SharedPreferenceProxy;
+
+import androidx.annotation.NonNull;
 
 public class PreferenceUtil {
 

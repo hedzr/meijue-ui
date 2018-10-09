@@ -10,6 +10,19 @@ in Android developing.
 
 
 
+## Branches
+
+### 1.1
+
+lower than AS 3.2, without Android X.
+ 
+### 1.3
+
+for AS 3.2 or higher, with Android X.
+
+
+
+
 ## Guide
 
 ### 1. add dependency

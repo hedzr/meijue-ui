@@ -1,8 +1,8 @@
 package com.obsez.mobile.meijue.ui.ext
 
 import android.graphics.drawable.Drawable
-import android.support.v4.view.animation.LinearOutSlowInInterpolator
-import android.support.v7.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 
 //import com.obsez.mobile.meijue.ui.R
 //

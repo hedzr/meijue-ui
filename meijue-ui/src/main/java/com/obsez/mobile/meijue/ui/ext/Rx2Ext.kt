@@ -1,8 +1,8 @@
 package com.obsez.mobile.meijue.ui.ext
 
 import android.os.Looper
-import android.support.annotation.CheckResult
 import android.view.View
+import androidx.annotation.CheckResult
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
