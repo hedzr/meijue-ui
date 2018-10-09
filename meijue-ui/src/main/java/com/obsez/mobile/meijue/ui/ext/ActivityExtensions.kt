@@ -6,10 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.support.annotation.ColorRes
-import android.support.annotation.DimenRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import android.support.annotation.*
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
@@ -104,10 +101,12 @@ inline fun <reified T> Activity.startActivity() = startActivity(Intent(this, T::
  * }
  *
  */
-inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: android.support.v4.util.Pair<View, String>, func: Intent.() -> Intent) {
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
+inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: android.support.v4.util.Pair<View, String>, func: (Intent.() -> Intent)) {
     val intent = Intent(this, T::class.java)
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements)
-    startActivity(intent.func(), options.toBundle())
+    intent.func()
+    startActivity(intent, options.toBundle())
 }
 
 /**
@@ -119,7 +118,7 @@ inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: 
  * }
  *
  */
-inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: View?, func: Intent.() -> Intent) {
+inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: View?, func: (Intent.() -> Intent)) {
     val intent = Intent(this, T::class.java)
     //val elements = emptyArray<Pair<View, String>>()
     val elements = Array(sharedElements.size) { android.support.v4.util.Pair(this.rootContentView, "") }
