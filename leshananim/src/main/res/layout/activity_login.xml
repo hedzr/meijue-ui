@@ -81,8 +81,7 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:importantForAutofill="no"/>
+                    android:singleLine="true"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

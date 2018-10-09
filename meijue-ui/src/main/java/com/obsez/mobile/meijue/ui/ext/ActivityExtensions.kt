@@ -103,8 +103,12 @@ inline fun <reified T> Activity.startActivity() = startActivity(Intent(this, T::
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: androidx.core.util.Pair<View, String>, noinline func: (Intent.() -> Intent)? = null) {
     val intent = Intent(this, T::class.java)
-    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements)
     if (func != null) intent.func()
+    if (sharedElements.isEmpty()) {
+        startActivity(intent)
+        return
+    }
+    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *sharedElements)
     startActivity(intent, options.toBundle())
 }
 
@@ -117,15 +121,21 @@ inline fun <reified T> AppCompatActivity.startActivitySE(vararg sharedElements: 
  * }
  *
  */
+@RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: View?, noinline func: (Intent.() -> Intent)? = null) {
     val intent = Intent(this, T::class.java)
+    if (func != null) intent.func()
+    if (sharedElements.isEmpty()) {
+        startActivity(intent)
+        return
+    }
+
     //val elements = emptyArray<Pair<View, String>>()
     val elements = Array(sharedElements.size) { androidx.core.util.Pair(this.rootContentView, "") }
     for (i in 0 until sharedElements.size) {
         sharedElements[i]?.let { elements[i] = androidx.core.util.Pair(it, ViewCompat.getTransitionName(it)) }
     }
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *elements)
-    if (func != null) intent.func()
     startActivity(intent, options.toBundle())
 }
 
