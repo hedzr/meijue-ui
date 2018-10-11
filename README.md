@@ -15,7 +15,9 @@ in Android developing.
 ### 1.1
 
 lower than AS 3.2, without Android X.
- 
+
+it's no longer updates on this branch.
+
 ### 1.3
 
 for AS 3.2 or higher, with Android X.
@@ -28,7 +30,7 @@ for AS 3.2 or higher, with Android X.
 ### 1. add dependency
 
 ```gradle
-	implementation 'com.obsez.mobile.meijue.ui:meijue-ui:$meijue_ui_version'
+implementation 'com.obsez.mobile.meijue.ui:meijue-ui:$meijue_ui_version'
 ```
 
 #### or, jitpack
@@ -36,9 +38,9 @@ for AS 3.2 or higher, with Android X.
 To get all available imports, lookup: https://jitpack.io/#hedzr/meijue-ui
 
 ```gradle
-	implementation 'com.github.hedzr:meijue-ui:master-SNAPSHOT'
-	// or:
-	// implementation 'com.github.hedzr:meijue-ui:release~v1.1.6'
+implementation 'com.github.hedzr:meijue-ui:master-SNAPSHOT'
+// or:
+// implementation 'com.github.hedzr:meijue-ui:release~v1.1.6'
 ```
 
 #### using `devel` branch
@@ -46,7 +48,7 @@ To get all available imports, lookup: https://jitpack.io/#hedzr/meijue-ui
 If you wanna retrieve the working branch with the latest fixes or patches, import the `devel` branch:
 
 ```gradle
-    implementation 'com.github.hedzr:meijue-ui:devel-SNAPSHOT'
+implementation 'com.github.hedzr:meijue-ui:devel-SNAPSHOT'
 ```
 
 
@@ -124,7 +126,9 @@ class MainActivity: AppCompatActivity() {
 }
 ```
 
-### using `HandsetPlugDetectReceiver`
+### 5. `HandsetPlugDetectReceiver`
+
+`HandsetPlugDetectReceiver` can detect plug in or out event of Handset.
 
 1. declare the permissions in `AndroidManifest.xml`:
    ```xml
@@ -165,12 +169,111 @@ class MainActivity: AppCompatActivity() {
    ```
 
 
+
+### 6. `NotificationUtil`
+
+It is an utilitiy class to simplify the operation of Android Notification Center.
+
+Usages:
+
+a. simple
+
+```kotlin
+btn_notify_2.setOnClickListener {
+    val idChannel = "channel_2"
+    val description = "456"
+
+    val idNotification = 1
+    val contentN = "who am i 2"
+    val descN = "this is a details 2"
+
+    val intent1 = Intent(this, LoginActivity::class.java)
+    val pi = PendingIntent.getActivity(this, 0, intent1, 0);
+
+    // see also `2. initialize meijue-ui module`,
+    // `MeijueUiAppModule.get().init(this)` must be invoked.
+    NotificationUtil.instance
+        .channel(idChannel, description)
+        .builder(idNotification, contentN, descN) {
+            setSmallIcon(R.mipmap.ic_launcher)
+            setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_home_black_24dp))
+
+            // auto cancel the notification with contentIntent
+            setAutoCancel(true)
+            setContentIntent(pi)
+        }
+        .show()
+}
+```
+
+b. grouped
+
+```kotlin
+btn_notify_2.setOnClickListener {
+    val idChannel = "channel_2"
+    val description = "456"
+
+    val idNotification = 1
+    val contentN = "who am i 2"
+    val descN = "this is a details 2"
+
+    val intent1 = Intent(this, LoginActivity::class.java)
+    val pi = PendingIntent.getActivity(this, 0, intent1, 0);
+
+    // see also `2. initialize meijue-ui module`,
+    // `MeijueUiAppModule.get().init(this)` must be invoked.
+    val jackie = NotificationUtil.instance.defaultSenderBuilder
+    	.setBot(true)
+    	.build()
+    val jasper = NotificationUtil.instance.defaultSenderBuilder
+        .setName("Jasper Brown")
+        .setIcon(IconCompat.createWithResource(this, R.drawable.ic_dashboard_black_24dp))
+        .setBot(false).build()
+
+
+    // see also `2. initialize meijue-ui module`,
+    // `MeijueUiAppModule.get().init(this)` must be invoked.
+    NotificationUtil.instance
+        .channel(idChannel, description)
+        .builder(idNotification, contentN, descN) {
+            setSmallIcon(R.mipmap.ic_launcher)
+            setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_home_black_24dp))
+
+            // auto cancel the notification with contentIntent
+            setAutoCancel(true)
+            setContentIntent(pi)
+        }
+        .sender {
+            setBot(false)
+        }
+        .messagingStyle {
+            addMessage("Check this out!", Date().time - 600000, jackie)
+            addMessage("r u sure?", Date().time - 180000, jackie)
+            addMessage("okay, got it.", Date().time - 60000, jasper)
+            addMessage("sounds good", Date().time, jackie)
+            setGroupConversation(true)
+            setConversationTitle("djsljdk®")
+        }
+        .action(R.drawable.ic_sync_black_24dp, "Process them", pi,
+            NotificationCompat.Action.SEMANTIC_ACTION_DELETE)
+        .show()
+}
+```
+
+For the completed codes, see also the demo app.
+
+
+
 ## Documentations
 
 #### 1. ui
 #### 2. extensions
 
 todo.
+
+
+
+
 
 ## LICENSE
 

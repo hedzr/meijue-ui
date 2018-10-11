@@ -22,6 +22,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        vectorDrawables.useSupportLibrary = true
+
     }
 
     buildTypes {
@@ -49,6 +51,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    //implementation 'androidx.design:design:1+'
 
     implementation 'com.jakewharton.timber:timber:4.7.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
