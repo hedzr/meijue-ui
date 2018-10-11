@@ -28,19 +28,27 @@ for AS 3.2 or higher, with Android X.
 ### 1. add dependency
 
 ```gradle
-implementation 'com.obsez.mobile.meijue.ui:meijue-ui:$meijue_ui_version'
+	implementation 'com.obsez.mobile.meijue.ui:meijue-ui:$meijue_ui_version'
 ```
 
 #### or, jitpack
 
 To get all available imports, lookup: https://jitpack.io/#hedzr/meijue-ui
 
+```gradle
+	implementation 'com.github.hedzr:meijue-ui:master-SNAPSHOT'
+	// or:
+	// implementation 'com.github.hedzr:meijue-ui:release~v1.1.6'
+```
+
+#### using `devel` branch
+
+If you wanna retrieve the working branch with the latest fixes or patches, import the `devel` branch:
 
 ```gradle
-implementation 'com.github.hedzr:meijue-ui:master-SNAPSHOT'
-// or:
-// implementation 'com.github.hedzr:meijue-ui:release~v1.1.6'
+    implementation 'com.github.hedzr:meijue-ui:devel-SNAPSHOT'
 ```
+
 
 
 ### 2. initialize meijue-ui module in your app:

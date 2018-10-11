@@ -1,4 +1,4 @@
-package com.obsez.mobile.meijue.ui
+package com.obsez.mobile.meijue.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.obsez.mobile.meijue.ui.R
 import com.obsez.mobile.meijue.ui.util.Utils
 
 @Suppress("PrivatePropertyName", "RedundantVisibilityModifier")
