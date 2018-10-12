@@ -1,4 +1,4 @@
-package com.obsez.mobile.meijue.ui
+package com.obsez.mobile.meijue.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Build

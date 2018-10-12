@@ -245,7 +245,7 @@ dependencies {
     //compileOnly 'com.squareup.retrofit2:retrofit:2.4.0'
     //compileOnly 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     // JSON Parsing
-    compileOnly 'com.google.code.gson:gson:2.8.4'
+    compileOnly 'com.google.code.gson:gson:2.8.5'
     compileOnly 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     // Documentation https://bitbucket.org/asomov/snakeyaml/wiki/Documentation

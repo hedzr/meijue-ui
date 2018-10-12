@@ -57,7 +57,9 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
+                    android:drawableStart="@drawable/ic_mail_999_24dp"
+                    android:drawablePadding="8dp"
+                    android:hint="@string/prompt_email_and_phone"
                     android:inputType="textEmailAddress|phone"
                     android:maxLines="1"
                     android:singleLine="true"/>
@@ -69,20 +71,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:hintTextAppearance="@style/TextAppearance.FloatLabelHint"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleDrawable="@drawable/asl_password_visibility"
+                app:passwordToggleTint="?colorControlNormal"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_lock_999_24dp"
+                    android:drawablePadding="8dp"
                     android:hint="@string/prompt_password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:importantForAutofill="no"/>
+                    android:singleLine="true"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

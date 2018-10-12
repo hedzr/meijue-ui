@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">meijue-ui</string>
+    <string name="default_user_name">David Pierce</string>
 </resources>

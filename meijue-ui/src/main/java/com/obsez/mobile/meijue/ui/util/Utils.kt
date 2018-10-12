@@ -1,11 +1,15 @@
 package com.obsez.mobile.meijue.ui.util
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Point
 import android.os.Build
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import com.obsez.mobile.meijue.ui.MeijueUiAppModule
+import timber.log.Timber
 
 
 //////////////////
@@ -109,4 +113,30 @@ object Utils {
         
         return screenWidth
     }
+    
+    /**
+     * https://developer.android.com/training/multiscreen/screensizes#TaskUseSWQuali
+     *
+     * <code>
+     *     if (BuildConfig.DEBUG) Utils.checkAndLogScreenInfo(mainActivity)
+     * </code>
+     */
+    fun checkAndLogScreenInfo(activity: Activity) {
+        val display = activity.windowManager.defaultDisplay
+        val displayMetrics = DisplayMetrics()
+        display.getMetrics(displayMetrics)
+        
+        val wInches = displayMetrics.widthPixels / (displayMetrics.densityDpi.toDouble())
+        val hInches = displayMetrics.heightPixels / (displayMetrics.densityDpi.toDouble())
+        
+        val screenDiagonal = Math.sqrt(Math.pow(wInches, 2.0) + Math.pow(hInches, 2.0))
+        val isTablet = screenDiagonal >= 7.0
+        
+        val wDp = this.px2dp(displayMetrics.widthPixels)
+        val hDp = this.px2dp(displayMetrics.heightPixels)
+        
+        Timber.v("isTablet: $isTablet, screen: ${displayMetrics.widthPixels}x${displayMetrics.heightPixels}, dp: ${wDp}x$hDp, inch: ${wInches}x$hInches")
+    }
+    
+    
 }
