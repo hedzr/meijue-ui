@@ -109,7 +109,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
             val idChannel = "channel_2"
             val description = "456"
 
-            val idNotification = 1
+            val idNotification = 2
             val contentN = "who am i 2"
             val descN = "this is a details 2"
 
