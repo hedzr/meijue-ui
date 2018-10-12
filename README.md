@@ -1,8 +1,4 @@
-# meijue-ui
-
-
-[![Download](https://api.bintray.com/packages/hedzr/maven/meijue-ui/images/download.svg)](https://bintray.com/hedzr/maven/meijue-ui/_latestVersion)
-[![Release](https://jitpack.io/v/hedzr/meijue-ui.svg)](https://jitpack.io/#hedzr/meijue-ui)
+# meijue-ui  [![Download](https://api.bintray.com/packages/hedzr/maven/meijue-ui/images/download.svg)](https://bintray.com/hedzr/maven/meijue-ui/_latestVersion)  [![Release](https://jitpack.io/v/hedzr/meijue-ui.svg)](https://jitpack.io/#hedzr/meijue-ui)  [![CircleCI](https://circleci.com/gh/hedzr/meijue-ui.svg?style=shield)](https://circleci.com/gh/hedzr/meijue-ui)
 
 
 `meijue-ui` is a kotlin extensions library to provide those knives (such as xxHelpers, xxUtil, xxTool)
@@ -69,6 +65,8 @@ public class AnimApplication extends Application {
 ### 3. use Base classes
 
 when you need a simple base class and structure, `BaseActivity` or `ToolbarAnimActivity` would be one of choices.
+
+> since 1.3.1, `BaseActivity` or `ToolbarAnimActivity` have been moved into child package `activity`.
 
 Sample here:
 
