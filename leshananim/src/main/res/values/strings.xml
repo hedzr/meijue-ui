@@ -16,6 +16,7 @@
 
     <string name="title_btn_notify">Make a notification</string>
     <string name="title_btn_notify_2">Notify, auto cancel</string>
+    <string name="title_btn_notify_3">Notify, grouped</string>
 
     <!-- Strings related to Settings -->
 

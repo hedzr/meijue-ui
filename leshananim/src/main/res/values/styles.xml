@@ -36,7 +36,7 @@
 
     <!-- By default float labels (well, the design lib) rely on AppCompat which we're not using
     yet (minSdk=21). We use this style to work around this and to provide the accent color. -->
-    <style name="TextAppearance.FloatLabelHint" parent="@android:style/TextAppearance.Material.Caption">
+    <style name="TextAppearance.FloatLabelHint" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">?android:colorAccent</item>
     </style>
 

@@ -5,9 +5,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.DrawableRes
-import androidx.annotation.NonNull
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
@@ -130,6 +130,21 @@ class NotificationUtil private constructor() {
         return this
     }
     
+    fun builder(id: Int, builder: NotificationCompat.Builder): NotificationUtil {
+        mNotificationBuilders[id] = builder
+        return this
+    }
+    
+    fun builder(id: Int, notify: Notification): NotificationUtil {
+        mNotifications[id] = notify
+        return this
+    }
+    
+    fun sender(person: Person): NotificationUtil {
+        mLastSender = person
+        return this
+    }
+    
     fun sender(name: String? = null,
                icon: IconCompat? = null,
                func: (Person.Builder.() -> Person.Builder)): NotificationUtil {
@@ -172,6 +187,10 @@ class NotificationUtil private constructor() {
      *      setGroupConversation(true)
      *  }
      * </code>
+     *
+     * see also:
+     * - https://developer.android.com/training/notify-user/expanded
+     * - https://developer.android.com/training/notify-user/group
      */
     fun messagingStyle(func: (NotificationCompat.MessagingStyle.() -> NotificationCompat.MessagingStyle)): NotificationUtil {
         mContext.get()?.let {
@@ -181,6 +200,76 @@ class NotificationUtil private constructor() {
                     .setBuilder(mNotificationBuilders[mLastNotificationId])
             }
         }
+        return this
+    }
+    
+    /**
+     * see also: https://developer.android.com/training/notify-user/expanded
+     */
+    fun inboxStyle(title: CharSequence? = null, summary: CharSequence? = null, func: (NotificationCompat.InboxStyle.() -> NotificationCompat.InboxStyle)? = null): NotificationUtil {
+        mContext.get()?.let {
+            if (mNotificationBuilders.containsKey(mLastNotificationId)) {
+                mNotificationBuilders[mLastNotificationId]?.setStyle(func?.let { it1 ->
+                    NotificationCompat.InboxStyle()
+                        .setBigContentTitle(title)
+                        .setSummaryText(summary).it1()
+                })
+            }
+        }
+        return this
+    }
+    
+    /**
+     * see also: https://developer.android.com/training/notify-user/expanded
+     */
+    fun bigPictureStyle(bitmap: Bitmap, title: CharSequence? = null, summary: CharSequence? = null, func: (NotificationCompat.BigPictureStyle.() -> NotificationCompat.BigPictureStyle)? = null): NotificationUtil {
+        mContext.get()?.let {
+            if (mNotificationBuilders.containsKey(mLastNotificationId)) {
+                mNotificationBuilders[mLastNotificationId]?.setStyle(func?.let { it1 ->
+                    NotificationCompat.BigPictureStyle()
+                        .bigPicture(bitmap)
+                        .setBigContentTitle(title)
+                        .setSummaryText(summary).it1()
+                })
+            }
+        }
+        return this
+    }
+    
+    /**
+     * see also: https://developer.android.com/training/notify-user/expanded
+     */
+    fun bigTextStyle(title: CharSequence? = null, summary: CharSequence? = null, func: (NotificationCompat.BigTextStyle.() -> NotificationCompat.BigTextStyle)? = null): NotificationUtil {
+        mContext.get()?.let {
+            if (mNotificationBuilders.containsKey(mLastNotificationId)) {
+                mNotificationBuilders[mLastNotificationId]?.setStyle(func?.let { it1 ->
+                    NotificationCompat.BigTextStyle()
+                        .setBigContentTitle(title)
+                        .setSummaryText(summary).it1()
+                })
+            }
+        }
+        return this
+    }
+    
+    fun decoratedCustomViewStyle(func: (NotificationCompat.DecoratedCustomViewStyle.() -> NotificationCompat.DecoratedCustomViewStyle)): NotificationUtil {
+        mContext.get()?.let {
+            if (mNotificationBuilders.containsKey(mLastNotificationId)) {
+                mNotificationBuilders[mLastNotificationId]?.setStyle(func.let { it1 ->
+                    NotificationCompat.DecoratedCustomViewStyle().it1()
+                })
+            }
+        }
+        return this
+    }
+    
+    /**
+     * see also: https://developer.android.com/training/notify-user/expanded
+     */
+    fun mediaStyle(): NotificationUtil {
+        // not yet.
+        //
+        // https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowserservice.html#mediastyle-notifications
         return this
     }
     
