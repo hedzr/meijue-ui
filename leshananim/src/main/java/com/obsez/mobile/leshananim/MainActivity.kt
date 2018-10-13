@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -288,12 +289,43 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         return super.onCreateOptionsMenu(menu)
     }
     
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        //val pref = PreferenceUtil.get(this)
+        //@AppCompatDelegate.NightMode val nightMode = pref.getInt("nightMode", AppCompatDelegate.getDefaultNightMode())
+        //Timber.d("load nightMode : $nightMode")
+        when (nightMode) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> menu.findItem(R.id.menu_night_mode_system)?.isChecked = true
+            // 22:00 - 07:00 时间段内自动切换为夜间模式
+            // 可以有机会拦截这个判定，改为实现自己的机制，例如依据日出日落（需要地理坐标）来变更。
+            AppCompatDelegate.MODE_NIGHT_AUTO -> menu.findItem(R.id.menu_night_mode_auto)?.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_YES -> menu.findItem(R.id.menu_night_mode_night)?.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> menu.findItem(R.id.menu_night_mode_day)?.isChecked = true
+        }
+        return true
+    }
+    
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.menu_night_mode_system -> {
+                nightMode = (AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM); true
+            }
+            R.id.menu_night_mode_day -> {
+                nightMode = (AppCompatDelegate.MODE_NIGHT_NO); true
+            }
+            R.id.menu_night_mode_night -> {
+                nightMode = (AppCompatDelegate.MODE_NIGHT_YES); true
+            }
+            R.id.menu_night_mode_auto -> {
+                nightMode = (AppCompatDelegate.MODE_NIGHT_AUTO); true
+            }
+            // android.R.id.home -> { mDrawerLayout.openDrawer(GravityCompat.START); return true }
+            R.id.action_settings -> {
+                //startActivity<ScrollingActivity>()
+                true
+            }
             R.id.action_login -> return showLogin() //showLoginBottomSheetDialog()
             else -> super.onOptionsItemSelected(item)
         }

@@ -22,6 +22,7 @@ open class BaseActivity : AppCompatActivity() {
     }
     
     protected open fun preOnCreate(savedInstanceState: Bundle?) {
+        loadNightMode()
     }
     
     protected open fun myCreate(savedInstanceState: Bundle?) {

@@ -18,6 +18,18 @@
     <string name="title_btn_notify_2">Notify, auto cancel</string>
     <string name="title_btn_notify_3">Notify, grouped</string>
 
+
+
+
+    <string name="menu_night_mode">Night mode</string>
+    <string name="menu_night_mode_system">Follow system</string>
+    <string name="menu_night_mode_day">Day (always)</string>
+    <string name="menu_night_mode_night">Night (always)</string>
+    <string name="menu_night_mode_auto">Auto</string>
+
+
+
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

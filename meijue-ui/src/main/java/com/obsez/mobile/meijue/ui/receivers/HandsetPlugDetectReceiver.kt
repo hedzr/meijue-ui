@@ -51,8 +51,10 @@ class HandsetPlugDetectReceiver : BroadcastReceiver() {
         }
         
         fun unregister(a: Activity) {
-            a.unregisterReceiver(instance)
-            instance.mCallback = null
+            if (instance.mCallback != null) {
+                a.unregisterReceiver(instance)
+                instance.mCallback = null
+            }
         }
         
         private const val HEADSET_STATE_PATH = "/sys/class/switch/h2w/state"
