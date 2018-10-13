@@ -104,6 +104,47 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
 }
 ```
 
+#### 3.1. Enable Android native Night Mode:
+
+in your `MainActivity`:
+
+```kotlin
+override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        //val pref = PreferenceUtil.get(this)
+        //@AppCompatDelegate.NightMode val nightMode = pref.getInt("nightMode", AppCompatDelegate.getDefaultNightMode())
+        //Timber.d("load nightMode : $nightMode")
+        when (nightMode) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> menu.findItem(R.id.menu_night_mode_system)?.isChecked = true
+            // 22:00 - 07:00 时间段内自动切换为夜间模式
+            // 可以有机会拦截这个判定，改为实现自己的机制，例如依据日出日落（需要地理坐标）来变更。
+            AppCompatDelegate.MODE_NIGHT_AUTO -> menu.findItem(R.id.menu_night_mode_auto)?.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_YES -> menu.findItem(R.id.menu_night_mode_night)?.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> menu.findItem(R.id.menu_night_mode_day)?.isChecked = true
+        }
+        return true
+    }
+    
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.menu_night_mode_system -> { nightMode = (AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM); true }
+            R.id.menu_night_mode_day -> { nightMode = (AppCompatDelegate.MODE_NIGHT_NO); true }
+            R.id.menu_night_mode_night -> { nightMode = (AppCompatDelegate.MODE_NIGHT_YES); true }
+            R.id.menu_night_mode_auto -> { nightMode = (AppCompatDelegate.MODE_NIGHT_AUTO); true }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+```
+
+check out the completed codes and resources in demo app.
+
 ### 4. use kotlin extensions
 
 once you integrated `meijue-ui` library, a set of extensions can be imported and used:
