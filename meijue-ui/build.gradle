@@ -124,7 +124,7 @@ dependencies {
     def lifecycle_version = arch_version
 
 
-    kapt 'androidx.databinding:databinding-compiler:3.2.0'
+    kapt 'androidx.databinding:databinding-compiler:3.2.1'
     //kapt deps.apt_databinding
 
     // Mockito

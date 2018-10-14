@@ -101,6 +101,11 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
 
         nav_view.setNavigationItemSelectedListener(this)
     }
+    
+    override fun postContentAnimation() {
+        super.postContentAnimation()
+        // put your late init codes here, better than onResume()
+    }
 }
 ```
 
@@ -141,6 +146,33 @@ override fun onCreateOptionsMenu(menu: Menu?): Boolean {
             else -> super.onOptionsItemSelected(item)
         }
     }
+```
+
+and, switch to Day/Night Theme (styles.xml):
+
+```xml
+    <!-- Base application theme. Theme.AppCompat.Light.DarkActionBar -->
+    <style name="Base.AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme" parent="Base.AppTheme">
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay.Dark" parent="ThemeOverlay.AppCompat.Dark"/>
+
 ```
 
 check out the completed codes and resources in demo app.

@@ -58,7 +58,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         
     }
     
-    var idNotification = 1
+    private var idNotification = 1
     
     override fun postContentAnimation() {
         super.postContentAnimation()
