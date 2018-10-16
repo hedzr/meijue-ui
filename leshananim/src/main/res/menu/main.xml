@@ -3,6 +3,22 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_login_page"
+        android:orderInCategory="80"
+        android:title="@string/action_login_page"
+        android:icon="@drawable/ic_person_outline_black_24dp"
+        app:showAsAction="ifRoom|withText"
+        />
+
+    <item
+        android:id="@+id/action_login_bs"
+        android:orderInCategory="80"
+        android:title="@string/action_login_bs"
+        android:icon="@drawable/ic_person_black_24dp"
+        app:showAsAction="ifRoom|withText"
+        />
+
+    <item
         android:id="@+id/action_login"
         android:orderInCategory="80"
         android:title="@string/action_login"

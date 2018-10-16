@@ -1,13 +1,20 @@
 package com.obsez.mobile.meijue.ui.util
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Point
 import android.os.Build
+import android.os.Environment
+import android.os.storage.StorageManager
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.obsez.mobile.meijue.ui.MeijueUiAppModule
 import timber.log.Timber
 
@@ -138,5 +145,57 @@ object Utils {
         Timber.v("isTablet: $isTablet, screen: ${displayMetrics.widthPixels}x${displayMetrics.heightPixels}, dp: ${wDp}x$hDp, inch: ${wInches}x$hInches")
     }
     
+    
+    fun checkAndLogStorageInfo(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            @Suppress("LocalVariableName")
+            val PERMISSION_REQUEST_READ_AND_WRITE_EXTERNAL_STORAGE = 0
+            
+            MeijueUiAppModule.get().context.let {
+                val readPermissionCheck = ContextCompat.checkSelfPermission(it,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                val writePermissionCheck = ContextCompat.checkSelfPermission(it,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                
+                //if = permission granted
+                if (readPermissionCheck == PackageManager.PERMISSION_GRANTED && writePermissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    llCheckStorage()
+                } else {
+                    ActivityCompat.requestPermissions(activity,
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        PERMISSION_REQUEST_READ_AND_WRITE_EXTERNAL_STORAGE)
+                    
+                    val readPermissionCheck2 = ContextCompat.checkSelfPermission(it,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                    val writePermissionCheck2 = ContextCompat.checkSelfPermission(it,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    if (readPermissionCheck2 == PackageManager.PERMISSION_GRANTED && writePermissionCheck2 == PackageManager.PERMISSION_GRANTED) {
+                        llCheckStorage()
+                    }
+                    return
+                }
+            }
+        }
+    }
+    
+    @SuppressLint("ServiceCast")
+    private fun llCheckStorage() {
+        MeijueUiAppModule.get().context.let {
+            val a = FileUtil.getStoragePath(it, false)
+            val b = FileUtil.getStoragePath(it, true)
+            Timber.v("removable: $b, internal: $a")
+            val c = Environment.getExternalStorageDirectory().absolutePath
+            Timber.v("env.external/primary : $c")
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                //StorageManager
+                val sm = it.getSystemService(Context.STORAGE_SERVICE) as StorageManager
+                for (sv in sm.storageVolumes) {
+                    Timber.v("- storageVolume: $sv")
+                }
+            }
+        }
+    }
     
 }

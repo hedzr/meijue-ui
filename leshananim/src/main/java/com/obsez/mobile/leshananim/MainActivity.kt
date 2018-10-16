@@ -1,16 +1,11 @@
 package com.obsez.mobile.leshananim
 
-import android.app.PendingIntent
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.NotificationCompat
-import androidx.core.graphics.drawable.IconCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -22,11 +17,10 @@ import com.obsez.mobile.meijue.ui.activity.ToolbarAnimActivity
 import com.obsez.mobile.meijue.ui.ext.snackBar
 import com.obsez.mobile.meijue.ui.ext.startActivity
 import com.obsez.mobile.meijue.ui.receivers.HandsetPlugDetectReceiver
-import com.obsez.mobile.meijue.ui.util.NotificationUtil
+import com.obsez.mobile.meijue.ui.util.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import timber.log.Timber
-import java.util.*
 
 class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelectedListener {
     
@@ -55,198 +49,28 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         //
         //        nav_view.setNavigationItemSelectedListener(this)
         
+        if (BuildConfig.DEBUG) {
+            Utils.checkAndLogStorageInfo(this)
+            Utils.checkAndLogScreenInfo(this)
+        }
         
+        checkHandsetStatus()
     }
-    
-    private var idNotification = 1
     
     override fun postContentAnimation() {
         super.postContentAnimation()
         
-        checkHandsetStatus()
-        
         btn_notify.setOnClickListener {
-            val idChannel = "channel_1"
-            val description = "123"
-            
-            val contentN = "who am i"
-            val descN = "this is a details"
-            
-            val intent1 = Intent(this, LoginActivity::class.java)
-            val pi = PendingIntent.getActivity(this, 0, intent1, 0);
-            
-            
-            val jackie = NotificationUtil.instance.defaultSenderBuilder.setBot(true).build()
-            val jasper = NotificationUtil.instance.defaultSenderBuilder
-                .setName("Jasper Brown")
-                .setIcon(IconCompat.createWithResource(this, R.drawable.ic_dashboard_black_24dp))
-                .setBot(false).build()
-            
-            
-            NotificationUtil.instance
-                //.from(this)
-                .channel(idChannel, description)
-                .builder(idNotification++, contentN, descN) {
-                    setSmallIcon(R.mipmap.ic_launcher)
-                    setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_home_black_24dp))
-                    setContentIntent(pi)
-                }
-                .sender {
-                    setBot(false)
-                }
-                .messagingStyle {
-                    addMessage("Check this out!", Date().time - 600000, jackie)
-                    addMessage("r u sure?", Date().time - 180000, jackie)
-                    addMessage("okay, got it.", Date().time - 60000, jasper)
-                    addMessage("sounds good", Date().time, jackie)
-                    setConversationTitle("djsljdk®")
-                    setGroupConversation(true)
-                }
-                .action(R.drawable.ic_sync_black_24dp, "Process them", pi,
-                    NotificationCompat.Action.SEMANTIC_ACTION_MARK_AS_READ)
-                .show()
+            NotifyHelper.notify123(this)
         }
         
         btn_notify_2.setOnClickListener {
-            val idChannel = "channel_2"
-            val description = "456"
-            
-            val contentN = "who am i 2"
-            val descN = "this is a details 2"
-            
-            val intent1 = Intent(this, LoginActivity::class.java)
-            val pi = PendingIntent.getActivity(this, 0, intent1, 0);
-            
-            
-            val jackie = NotificationUtil.instance.defaultSenderBuilder.setBot(true).build()
-            val jasper = NotificationUtil.instance.defaultSenderBuilder
-                .setName("Jasper Brown")
-                .setIcon(IconCompat.createWithResource(this, R.drawable.ic_dashboard_black_24dp))
-                .setBot(false).build()
-            
-            
-            NotificationUtil.instance
-                //.from(this)
-                .channel(idChannel, description)
-                .builder(idNotification++, contentN, descN) {
-                    setSmallIcon(R.mipmap.ic_launcher)
-                    setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_home_black_24dp))
-                    
-                    // auto cancel the notification with contentIntent
-                    setAutoCancel(true)
-                    setContentIntent(pi)
-                }
-                .sender {
-                    setBot(false)
-                }
-                .messagingStyle {
-                    addMessage("Check this out!", Date().time - 600000, jackie)
-                    addMessage("r u sure?", Date().time - 180000, jackie)
-                    addMessage("okay, got it.", Date().time - 60000, jasper)
-                    addMessage("sounds good", Date().time, jackie)
-                    setGroupConversation(true)
-                    setConversationTitle("djsljdk®")
-                    //
-                }
-                .action(R.drawable.ic_sync_black_24dp, "Process them", pi,
-                    NotificationCompat.Action.SEMANTIC_ACTION_DELETE)
-                .show()
+            NotifyHelper.notify456(this)
         }
         
         btn_notify_3.setOnClickListener {
-            val idChannel = "channel_3"
-            val description = "789"
-            
-            val contentN = "who am i 3"
-            val descN = "this is a details 3"
-            
-            val intent1 = Intent(this, LoginActivity::class.java)
-            val pi = PendingIntent.getActivity(this, 0, intent1, 0);
-            
-            
-            val jackie = NotificationUtil.instance.defaultSenderBuilder.setBot(true).build()
-            val jasper = NotificationUtil.instance.defaultSenderBuilder
-                .setName("Jasper Brown")
-                .setIcon(IconCompat.createWithResource(this, R.drawable.ic_dashboard_black_24dp))
-                .setBot(false)
-                .build()
-            val james = NotificationUtil.instance.defaultSenderBuilder
-                .setName("James Bond")
-                .setIcon(IconCompat.createWithResource(this, R.drawable.ic_person_black_24dp))
-                .setBot(false)
-                .build()
-            
-            val contentM = "golang orm"
-            val descM = "such as mysql, postgresql, oracle, sqlite, ...."
-            val GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL"
-            NotificationUtil.instance
-                //.from(this)
-                .channel(idChannel, description)
-                .builder(idNotification++, contentM, descM) {
-                    setSmallIcon(R.drawable.ic_person_outline_black_24dp)
-                    setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_person_outline_black_24dp))
-                    
-                    // auto cancel the notification with contentIntent
-                    setAutoCancel(true)
-                    setContentIntent(pi)
-                    
-                    setGroup(GROUP_KEY_WORK_EMAIL)
-                }
-                .builder(idNotification++, contentN, descN) {
-                    setSmallIcon(R.drawable.ic_person_black_24dp)
-                    setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_person_black_24dp))
-        
-                    // auto cancel the notification with contentIntent
-                    setAutoCancel(true)
-                    setContentIntent(pi)
-        
-                    setGroup(GROUP_KEY_WORK_EMAIL)
-                }
-                .builder(idNotification++, contentN, descN) {
-                    setSmallIcon(R.drawable.ic_dashboard_black_24dp)
-                    setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_dashboard_black_24dp))
-        
-                    // auto cancel the notification with contentIntent
-                    setAutoCancel(true)
-                    setContentIntent(pi)
-        
-                    setGroup(GROUP_KEY_WORK_EMAIL)
-                    setGroupSummary(true)
-                }
-                .inboxStyle("2 new messages", "janedoe@example.com") {
-                    addLine("Alex Faarborg Check this out")
-                    addLine("Jeff Chang Launch Party")
-                    setBigContentTitle("2 new messages")
-                    setSummaryText("janedoe@example.com")
-                }
-//                .sender(james)
-//                .messagingStyle {
-//                    addMessage("Check this out!", Date().time - 600000, jackie)
-//                    addMessage("r u sure?", Date().time - 180000, jackie)
-//                    addMessage("okay, got it.", Date().time - 60000, jasper)
-//                    addMessage("sounds good", Date().time, jackie)
-//                    setGroupConversation(true)
-//                    setConversationTitle("007®")
-//                    //
-//                }
-                .action(R.drawable.ic_notifications_paused_black_24dp, "Process them", pi,
-                    NotificationCompat.Action.SEMANTIC_ACTION_DELETE)
-                .action(R.drawable.ic_notifications_paused_black_24dp, "Call", pi,
-                    NotificationCompat.Action.SEMANTIC_ACTION_CALL)
-                .action(R.drawable.ic_notifications_paused_black_24dp, "Reply", pi,
-                    NotificationCompat.Action.SEMANTIC_ACTION_REPLY)
-                .show()
-            
+            NotifyHelper.notify789(this)
         }
-    }
-    
-    private fun checkHandsetStatus() {
-        HandsetPlugDetectReceiver.register(this) {
-            snackBar("headset present: $it (recheck: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}), bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
-        }
-        Timber.v("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}")
-        Timber.v("bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}")
-        snackBar("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}, bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
     }
     
     override fun onDestroy() {
@@ -321,14 +145,65 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
             R.id.menu_night_mode_auto -> {
                 nightMode = (AppCompatDelegate.MODE_NIGHT_AUTO); true
             }
+            
             // android.R.id.home -> { mDrawerLayout.openDrawer(GravityCompat.START); return true }
+            
             R.id.action_settings -> {
                 //startActivity<ScrollingActivity>()
+                startActivity<SettingsActivity>()
                 true
             }
-            R.id.action_login -> return showLogin() //showLoginBottomSheetDialog()
+            
+            R.id.action_login -> return showLogin()
+            R.id.action_login_bs -> return showLoginBottomSheetDialog()
+            R.id.action_login_page -> {
+                startActivity<LoginActivity>()
+                true
+            }
+            
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        // Handle navigation view item clicks here.
+        when (item.itemId) {
+            R.id.nav_camera -> {
+                // Handle the camera action
+                
+                // ext.startActivity
+                startActivity<MainBnvActivity>()
+            }
+            R.id.nav_gallery -> {
+                startActivity<SettingsActivity>()
+            }
+            R.id.nav_slideshow -> {
+                startActivity<LoginActivity>()
+            }
+            R.id.nav_manage -> {
+            
+            }
+            R.id.nav_share -> {
+            
+            }
+            R.id.nav_send -> {
+            
+            }
+        }
+        
+        return super.onNavigationItemSelected(item)
+        //drawer_layout.closeDrawer(GravityCompat.START)
+        //return true
+    }
+    
+    
+    private fun checkHandsetStatus() {
+        HandsetPlugDetectReceiver.register(this) {
+            snackBar("headset present: $it (recheck: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}), bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
+        }
+        Timber.v("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}")
+        Timber.v("bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}")
+        snackBar("headset present: ${HandsetPlugDetectReceiver.getHeadsetStatus(this)}, bluetooth headset present: ${HandsetPlugDetectReceiver.getBlootoothHeadsetStatus(this)}", Snackbar.LENGTH_INDEFINITE)
     }
     
     private fun showLogin(): Boolean {
@@ -345,34 +220,5 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
     
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-                
-                // ext.startActivity
-                startActivity<MainBnvActivity>()
-            }
-            R.id.nav_gallery -> {
-                startActivity<SettingsActivity>()
-            }
-            R.id.nav_slideshow -> {
-            
-            }
-            R.id.nav_manage -> {
-                startActivity<LoginActivity>()
-            }
-            R.id.nav_share -> {
-            
-            }
-            R.id.nav_send -> {
-            
-            }
-        }
-        
-        return super.onNavigationItemSelected(item)
-        //drawer_layout.closeDrawer(GravityCompat.START)
-        //return true
-    }
 }
+

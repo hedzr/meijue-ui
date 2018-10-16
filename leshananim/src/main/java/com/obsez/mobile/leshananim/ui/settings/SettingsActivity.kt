@@ -9,9 +9,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.*
-import androidx.core.app.NavUtils
 import android.text.TextUtils
 import android.view.MenuItem
+import androidx.core.app.NavUtils
 import com.obsez.mobile.leshananim.R
 
 /**

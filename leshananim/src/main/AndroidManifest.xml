@@ -59,6 +59,46 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.obsez.mobile.leshananim.MainActivity"/>
         </activity>
+
+        <activity
+            android:name=".ui.demo.NavDrawerActivity"
+            android:label="@string/title_activity_nav_drawer"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.obsez.mobile.leshananim.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.demo.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.obsez.mobile.leshananim.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.demo.TabbedActivity"
+            android:label="@string/title_activity_tabbed"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.obsez.mobile.leshananim.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.demo.BottomNavActivity"
+            android:label="@string/title_activity_bottom_nav"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.obsez.mobile.leshananim.MainActivity"/>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

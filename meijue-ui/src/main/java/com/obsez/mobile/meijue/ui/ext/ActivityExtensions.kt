@@ -129,7 +129,7 @@ inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: Vi
         startActivity(intent)
         return
     }
-
+    
     //val elements = emptyArray<Pair<View, String>>()
     val elements = Array(sharedElements.size) { androidx.core.util.Pair(this.rootContentView, "") }
     for (i in 0 until sharedElements.size) {
