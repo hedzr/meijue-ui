@@ -2,11 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply from: '../meijue-ui/_increase_version.gradle'
+
+static def buildTime() { return new Date().format("yyyy-MM-dd HH:mm:ss.SSSSZ", TimeZone.getTimeZone("UTC")) }
+
+def getGitVersion() { return 'git rev-parse HEAD'.execute([], project.rootDir).text.trim() }
+
 android {
     //compileSdkVersion 28
     compileSdkVersion Integer.parseInt(project.ANDROID_COMPILE_SDK_VERSION)
     //buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
-
 
 
     defaultConfig {
@@ -30,6 +35,64 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    //flavorDimensions "api", "mode"
+    flavorDimensions "mode", "channel", "store"
+
+    productFlavors {
+
+        free {
+            //applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+            dimension "mode"
+        }
+//        paid {
+//            dimension "mode"
+//            applicationIdSuffix ".pro"
+//            versionNameSuffix "-pro"
+//        }
+//        subs { // subscription
+//            dimension "mode"
+//            applicationIdSuffix ".subs"
+//            versionNameSuffix "-subs"
+//        }
+
+        BetaChannel {
+            dimension "channel"
+            //applicationIdSuffix ".beta"
+            versionNameSuffix "-beta"
+        }
+        AlphaChannel {
+            dimension "channel"
+            //applicationIdSuffix ".alpha"
+            versionNameSuffix "-alpha"
+        }
+        FinalChannel {
+            dimension "channel"
+            //applicationIdSuffix ".final"
+            versionNameSuffix "-final"
+        }
+
+        PlayStore {
+            dimension "store"
+            //applicationIdSuffix ".play"
+            versionNameSuffix "-play"
+        }
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("-alpha") && names.contains("-pro")) {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+        if (!names.contains("-play") && (names.contains("-beta") || names.contains("-alpha"))) {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
         }
     }
 

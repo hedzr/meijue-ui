@@ -13,6 +13,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         preOnCreate(savedInstanceState)
         super.onCreate(savedInstanceState, persistentState)
+        myCreate(savedInstanceState)
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ open class BaseActivity : AppCompatActivity() {
     
     }
     
-    fun loadNightMode() {
+    protected open fun loadNightMode() {
         val nm = nightMode
         if (nm != AppCompatDelegate.getDefaultNightMode()) {
             setNightMode(nm)
@@ -49,7 +50,7 @@ open class BaseActivity : AppCompatActivity() {
     }
     
     @AppCompatDelegate.NightMode
-    var nightMode: Int
+    open var nightMode: Int
         get() {
             //return pref("nightMode", AppCompatDelegate.getDefaultNightMode()).getValue()
             val pref = PreferenceUtil.get(this)
@@ -64,7 +65,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     
     @SuppressLint("ObsoleteSdkInt")
-    fun setNightMode(@AppCompatDelegate.NightMode nightMode_: Int, needRecreate: Boolean = false) {
+    open fun setNightMode(@AppCompatDelegate.NightMode nightMode_: Int, needRecreate: Boolean = false) {
         val pref = PreferenceUtil.get(this)
         //pref.getInt("nightMode")
         pref.edit().putInt("nightMode", nightMode_).apply()

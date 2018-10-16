@@ -62,6 +62,13 @@ public class AnimApplication extends Application {
 }
 ```
 
+#### Or, derived from `BaseApp`
+
+```kotlin
+class AnimAppliation: BaseApp {
+}
+```
+
 ### 3. use Base classes
 
 when you need a simple base class and structure, `BaseActivity` or `ToolbarAnimActivity` would be one of choices.
@@ -343,6 +350,13 @@ For the completed codes, see also the demo app.
 todo.
 
 
+
+
+### Demo Application
+
+An `Early access` (`抢先体验`) demo-app can be installed from [Play Store](https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim).
+
+<a href='https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width='240' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
 
 
