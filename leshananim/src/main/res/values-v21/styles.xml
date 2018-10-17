@@ -18,4 +18,7 @@
         <item name="android:textColor">?android:colorAccent</item>
     </style>
 
+    <style name="TextAppearance.Main.Large" parent="@android:style/TextAppearance.Material.Large">
+    </style>
+
 </resources>
