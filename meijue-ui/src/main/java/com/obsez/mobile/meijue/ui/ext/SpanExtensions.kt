@@ -350,16 +350,16 @@ class TextSpan(val content: CharSequence) {
         return this
     }
     
-    operator fun plusAssign(nextVal: TextSpan) {
-        //styles.addAll(TextSpan(nextVal))
-        styles.addAll(nextVal.styles)
-        textConstructor.addAll(nextVal.textConstructor)
-    }
-    
-    operator fun plusAssign(nextVal: CharSequence) {
-        //styles.addAll(TextSpan(nextVal))
-        textConstructor.add(nextVal)
-    }
+//    operator fun plusAssign(nextVal: TextSpan) {
+//        //styles.addAll(TextSpan(nextVal))
+//        styles.addAll(nextVal.styles)
+//        textConstructor.addAll(nextVal.textConstructor)
+//    }
+//
+//    operator fun plusAssign(nextVal: CharSequence) {
+//        //styles.addAll(TextSpan(nextVal))
+//        textConstructor.add(nextVal)
+//    }
     
     
     fun toTextView(tv: TextView) {
