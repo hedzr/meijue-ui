@@ -42,7 +42,9 @@ fun Spannable.highlightSubstring(query: String, @StyleRes style: Int): Spannable
 
 /**
  * Kotlin wrapper around SpannableStringBuilder
+ *
  * Inspired by JakeWharton's Truss and Kotlin's kotlinx.html
+ *
  * @see <a href="https://gist.github.com/JakeWharton/11274467">Truss</a>
  * @see <a href="https://github.com/Kotlin/kotlinx.html">kotlinx.html</a>
  *
@@ -175,8 +177,12 @@ fun span(init: Span.() -> Unit): Span {
 }
 
 
-inline fun String.withTextSpan() = TextSpan(this)
+//
 
+
+/**
+ *
+ */
 class TextSpan(val content: CharSequence) {
     //所有样式
     internal val styles = mutableListOf(mutableListOf<CharacterStyle>())
@@ -319,8 +325,15 @@ class TextSpan(val content: CharSequence) {
     /**
      * 文本超链接
      */
-    fun url(linkAddress: String): TextSpan {
-        styles[0].add(URLSpan(linkAddress))
+    fun url(linkAddress: String?): TextSpan {
+        if (linkAddress != null)
+            styles[0].add(URLSpan(linkAddress))
+        return this
+    }
+    
+    fun link(linkAddress: String?): TextSpan {
+        if (linkAddress != null)
+            styles[0].add(URLSpan(linkAddress))
         return this
     }
     
@@ -336,6 +349,18 @@ class TextSpan(val content: CharSequence) {
         textConstructor.add(nextVal)
         return this
     }
+    
+    operator fun plusAssign(nextVal: TextSpan) {
+        //styles.addAll(TextSpan(nextVal))
+        styles.addAll(nextVal.styles)
+        textConstructor.addAll(nextVal.textConstructor)
+    }
+    
+    operator fun plusAssign(nextVal: CharSequence) {
+        //styles.addAll(TextSpan(nextVal))
+        textConstructor.add(nextVal)
+    }
+    
     
     fun toTextView(tv: TextView) {
         val builder = StringBuilder()
@@ -375,6 +400,10 @@ class TextSpan(val content: CharSequence) {
         return spanStr
     }
 }
+
+
+inline fun String.withTextSpan() = TextSpan(this)
+
 
 fun TextView.setText(textSpan: TextSpan) {
     val builder = StringBuilder()

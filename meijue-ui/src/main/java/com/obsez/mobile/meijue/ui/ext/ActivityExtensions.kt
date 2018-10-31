@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -56,11 +57,13 @@ fun Activity.toast(@NotNull msg: CharSequence, duration: Int = Toast.LENGTH_SHOR
  *     }
  */
 fun Activity.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
-    val s = Snackbar.make(rootContentView, getString(id, args), duration); func?.let { s.it() }; s.show()
+    val s = Snackbar.make(firstCoordinatorLayout()
+        ?: rootContentView, getString(id, args), duration); func?.let { s.it() }; s.show()
 }
 
 fun Activity.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
-    val s = Snackbar.make(rootContentView, msg, duration); func?.let { s.it() }; s.show()
+    val s = Snackbar.make(firstCoordinatorLayout()
+        ?: rootContentView, msg, duration); func?.let { s.it() }; s.show()
 }
 
 
@@ -241,6 +244,32 @@ val Activity.rootContentViewGroup: ViewGroup
         val v = window.decorView.findViewById<ViewGroup>(android.R.id.content)
         return v.getChildAt(0) as ViewGroup
     }
+
+
+fun Activity.firstCoordinatorLayout(): CoordinatorLayout? {
+    
+    val root = window.decorView.findViewById<ViewGroup>(android.R.id.content)
+    
+    fun innerFind(parentView: ViewGroup): CoordinatorLayout? {
+        for (i in 0 until parentView.childCount) {
+            val v = parentView[i]
+            if (v is CoordinatorLayout) {
+                return v
+            }
+            if (v is ViewGroup) {
+                val vr = innerFind(v)
+                if (vr != null) {
+                    return vr
+                }
+            }
+        }
+        return null
+    }
+    
+    return innerFind(root)
+}
+
+
 
 
 

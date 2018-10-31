@@ -78,11 +78,13 @@ fun androidx.fragment.app.Fragment.getColor(@ColorRes id: Int) = context?.let { 
 fun androidx.fragment.app.Fragment.toast(@StringRes id: Int, vararg args: Any?, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(activity, activity?.resources?.getString(id, args), duration).show()
 fun androidx.fragment.app.Fragment.toast(@NotNull msg: CharSequence, duration: Int = Toast.LENGTH_SHORT) = Toast.makeText(activity, msg, duration).show()
 fun androidx.fragment.app.Fragment.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = com.google.android.material.snackbar.Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
-    val s = com.google.android.material.snackbar.Snackbar.make(view!!, activity?.resources?.getString(id, args)!!, duration); func?.let { s.it() }; s.show()
+    val s = com.google.android.material.snackbar.Snackbar.make(activity?.firstCoordinatorLayout()
+        ?: view!!, activity?.resources?.getString(id, args)!!, duration); func?.let { s.it() }; s.show()
 }
 
 fun androidx.fragment.app.Fragment.snackBar(@NotNull msg: CharSequence, duration: Int = com.google.android.material.snackbar.Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
-    val s = com.google.android.material.snackbar.Snackbar.make(view!!, msg, duration); func?.let { s.it() }; s.show()
+    val s = com.google.android.material.snackbar.Snackbar.make(activity?.firstCoordinatorLayout()
+        ?: view!!, msg, duration); func?.let { s.it() }; s.show()
 }
 
 
