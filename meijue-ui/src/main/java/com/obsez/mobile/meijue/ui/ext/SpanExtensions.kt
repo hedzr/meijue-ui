@@ -347,6 +347,9 @@ class TextSpan(val content: CharSequence) {
     operator fun plus(nextVal: CharSequence): TextSpan {
         //styles.addAll(TextSpan(nextVal))
         textConstructor.add(nextVal)
+        val style = mutableListOf<CharacterStyle>()
+        //style.add(TypefaceSpan(Typeface.NORMAL))
+        styles.add(style)
         return this
     }
     
