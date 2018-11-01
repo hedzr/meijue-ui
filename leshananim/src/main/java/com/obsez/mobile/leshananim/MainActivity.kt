@@ -1,8 +1,17 @@
 package com.obsez.mobile.leshananim
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Browser.EXTRA_APPLICATION_ID
+import android.text.Html
+import android.text.TextPaint
+import android.text.style.StrikethroughSpan
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -15,12 +24,15 @@ import com.obsez.mobile.leshananim.ui.login.LoginBottomSheetDialogFragment
 import com.obsez.mobile.leshananim.ui.settings.SettingsActivity
 import com.obsez.mobile.meijue.ui.activity.ToolbarAnimActivity
 import com.obsez.mobile.meijue.ui.ext.snackBar
+import com.obsez.mobile.meijue.ui.ext.span
 import com.obsez.mobile.meijue.ui.ext.startActivity
 import com.obsez.mobile.meijue.ui.receivers.HandsetPlugDetectReceiver
 import com.obsez.mobile.meijue.ui.util.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import timber.log.Timber
+
 
 class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelectedListener {
     
@@ -55,6 +67,95 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         }
         
         checkHandsetStatus()
+        
+        
+        //Error: textView1.movementMethod = BetterLinkMovementMethod.getInstance()
+        //Error: textView1.autoLinkMask = Linkify.ALL
+        
+        //val s1 = "constructs".withTextSpan().bold()
+        val ss = span {
+            italic {
+                link("https://github.com/hedzr", {
+                    Timber.v("clicked on $it")
+                    openWebPage(it.url)
+                    true
+                }) {
+                    text("hedzr")
+                }
+                +" "
+                
+                bold { text("constructs") }
+                +" "
+                
+                foregroundColor(Color.RED) {
+                    link("https://github.com/hedzr/meijue-ui", {
+                        Timber.v("clicked on $it")
+                        openWebPage(it.url)
+                        true
+                    }) {
+                        monospace { +"this app (meijue-ui's demo)" }
+                    }
+                }
+            }
+            
+            +" ok.\n"
+            
+            quote(Color.RED) {
+                url("https://google.com", { println(it.url); /*redirect?*/ true }) {
+                    monospace {
+                        +"Google"
+                    }
+                }
+            }
+            
+            
+            /*Anonymous TextSpan classes*/
+            strikeThrough(object : StrikethroughSpan() {
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.alpha = 50
+                }
+            }) {
+                +"\nstrikeThrough with alpha"
+            }
+            
+            +"\n"
+            
+            /*Nested spans*/
+            bold {
+                backgroundColor(Color.parseColor("#333333")) {
+                    foregroundColor(Color.WHITE) {
+                        +"Nested spans"
+                    }
+                }
+                +" works too!\n"
+            }
+        }
+        
+        //textView1.text = ss.build()
+        //textView1.movementMethod = BetterLinkMovementMethod.getInstance()
+        ss.toTextView(textView1)
+        
+        //textView2.autoLinkMask = Linkify.ALL
+        //textView2.text = Html.fromHtml("Looking for the regular mj App? \n", 0)
+        textView2.text = Html.fromHtml(
+            "<a href=\"https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim\">Hello, MeiJue-UI Lib Demo!</a>\n", 0)
+        textView2.movementMethod = BetterLinkMovementMethod.getInstance()
+        
+        
+        //Linkify.addLinks(textView2, Linkify.ALL)
+    }
+    
+    private fun openWebPage(url: String) {
+        try {
+            val uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            intent.putExtra(EXTRA_APPLICATION_ID, this.packageName)
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "No application can handle this request. Please install a web browser or check your URL.", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
     }
     
     override fun postContentAnimation() {

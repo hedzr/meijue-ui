@@ -118,6 +118,7 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'me.saket:better-link-movement-method:2.2.0'
 
     implementation project(':meijue-ui')
 }
