@@ -104,10 +104,14 @@ open class TextSpan {
     }
 
     operator fun String.unaryPlus() = text(this)
+    operator fun TextSpan.unaryPlus() = this
 
 
     operator fun plus(nextValue: Any) : TextSpan {
-        spans.add(Node(nextValue))
+        if(nextValue is TextSpan)
+            spans.addAll(nextValue.spans)
+        else
+            spans.add(Node(nextValue))
         return this
     }
 
@@ -241,7 +245,7 @@ fun span(init: TextSpan.() -> Unit): TextSpan {
 //
 
 
-inline fun String.withTextSpan() = TextSpan()
+inline fun String.span() = TextSpan().text(this)
 
 
 fun TextView.setText(textSpan: TextSpan) {
