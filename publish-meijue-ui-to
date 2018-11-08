@@ -1,14 +1,20 @@
 #!/bin/bash
 
 RM_1ST=0
-[ "$1" == "--rm" ] && shift && RM_1ST=1
+[[ "$1" == "--rm" ]] && shift && RM_1ST=1
 
 
 case $1 in
     local|lo|copy|aar)
         shift
         [[ $RM_1ST -eq 1 ]] && rm -rf meijue-ui/build
-        ./gradlew :meijue-ui:copyAar $*
+        ./gradlew :meijue-ui:build $* && {
+          SRC=./meijue-ui/build/outputs/aar/
+          DST=../../DemoApp32/foliage/libs
+          if [[ -f "$SRC/meijue-ui-debug.aar" ]]; then
+            cp "$SRC/meijue-ui-debug.aar" $DST/
+          fi
+        }
         ;;
     *)
         ./gradlew bintrayUpload $*

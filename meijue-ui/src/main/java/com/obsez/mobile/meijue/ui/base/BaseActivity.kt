@@ -1,15 +1,70 @@
-package com.obsez.mobile.meijue.ui.activity
+package com.obsez.mobile.meijue.ui.base
 
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.obsez.mobile.meijue.ui.base.fr.Entering
+import com.obsez.mobile.meijue.ui.base.fr.FrameElements
 import com.obsez.mobile.meijue.ui.pref.PreferenceUtil
+import timber.log.Timber
+import java.lang.ref.WeakReference
 
-open class BaseActivity : AppCompatActivity() {
+@Suppress("MemberVisibilityCanBePrivate")
+open class BaseActivity : AppCompatActivity(), FrameElements {
+    
+    override val drawerLayoutUi: DrawerLayout?
+        get() = null
+    override val navDrawerUi: NavigationView?
+        get() = null
+    override val actionBarDrawerToggleUi: ActionBarDrawerToggle?
+        get() = null
+    
+    override val toolbarUi: Toolbar?
+        get() = null
+    override val collapsingToolbarLayoutUi: CollapsingToolbarLayout?
+        get() = null
+    
+    override val tabLayoutUi: TabLayout?
+        get() = null
+    override val viewPagerUi: ViewPager?
+        get() = null
+    
+    override val bottomNavigationViewUi: BottomNavigationView?
+        get() = null
+    override val fabUi: FloatingActionButton?
+        get() = null
+    
+    protected var lastAttachedFragment: WeakReference<Fragment>? = null
+    
+    override fun onAttachFragment(fragment: Fragment?) {
+        super.onAttachFragment(fragment)
+        
+        Timber.d("onAttachFragment: $fragment")
+        
+        if (fragment != null) {
+            lastAttachedFragment = WeakReference(fragment)
+            
+            if (fragment is Entering) {
+                fragment.onAttachToActivity(this)
+            }
+        }
+    }
+    
+    
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         preOnCreate(savedInstanceState)
         super.onCreate(savedInstanceState, persistentState)

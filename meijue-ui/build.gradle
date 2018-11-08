@@ -128,7 +128,7 @@ dependencies {
     //kapt deps.apt_databinding
 
     // Mockito
-    testImplementation "org.mockito:mockito-core:2.21.0"
+    testImplementation "org.mockito:mockito-core:2.23.0"
     // tester
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
     // debug
@@ -214,7 +214,7 @@ dependencies {
     //compileOnly 'org.jetbrains.kotlinx:kotlinx.reflect.lite:1.0.0'
     compileOnly "com.squareup.retrofit2:retrofit:$retrofit_version"
     compileOnly "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    compileOnly "com.squareup.retrofit2:adapter-rxjava2:2.2.0"
+    compileOnly "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     //implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
     compileOnly("com.squareup.retrofit2:converter-simplexml:$retrofit_version", {
         exclude module: 'stax'

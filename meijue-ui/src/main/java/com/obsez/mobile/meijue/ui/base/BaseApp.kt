@@ -1,6 +1,7 @@
-package com.obsez.mobile.meijue.ui
+package com.obsez.mobile.meijue.ui.base
 
 import android.app.Application
+import com.obsez.mobile.meijue.ui.MeijueUiAppModule
 
 /**
  * Just a sample

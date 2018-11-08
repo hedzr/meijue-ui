@@ -1,4 +1,4 @@
-package com.obsez.mobile.meijue.ui.activity
+package com.obsez.mobile.meijue.ui.base
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -7,9 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.OvershootInterpolator
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.obsez.mobile.meijue.ui.R
 import com.obsez.mobile.meijue.ui.util.Utils
@@ -25,10 +23,14 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
     @Suppress("MemberVisibilityCanBePrivate")
     protected var pendingIntroAnimation: Boolean = false
     
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected var isFirstCreation: Boolean = false
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             pendingIntroAnimation = true
+            isFirstCreation = true
         }
     }
     
@@ -81,8 +83,17 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             android.R.id.home -> {
+                if (drawerLayoutUi != null) {
+                    drawerLayoutUi?.apply {
+                        if (isDrawerOpen(this))
+                            closeDrawer(this)
+                        else
+                            openDrawer(GravityCompat.START)
+                    }
+                }
                 //mDrawerLayout.openDrawer(GravityCompat.START); return true
-                onBackPressed()
+                else
+                    onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -191,16 +202,6 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
         // add the once initializations
     }
     
-    protected open val drawerLayoutUi: androidx.drawerlayout.widget.DrawerLayout?
-        get() {
-            return null
-        }
-    
-    protected open val navDrawerUi: NavigationView?
-        get() {
-            return null
-        }
-    
     protected open fun setupAppBar() {
         //
     }
@@ -225,19 +226,9 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
         //
     }
     
-    protected open val fabUi: FloatingActionButton?
-        get() {
-            return null
-        }
-    
     protected open fun setupFab() {
         //
     }
-    
-    protected open val toolbarUi: Toolbar?
-        get() {
-            return null
-        }
     
     protected open fun setupToolbar() {
         if (toolbarUi != null) {

@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.obsez.mobile.leshananim.ui.login.LoginActivity
 import com.obsez.mobile.leshananim.ui.login.LoginBottomSheetDialogFragment
 import com.obsez.mobile.leshananim.ui.settings.SettingsActivity
-import com.obsez.mobile.meijue.ui.activity.ToolbarAnimActivity
+import com.obsez.mobile.meijue.ui.base.ToolbarAnimActivity
 import com.obsez.mobile.meijue.ui.ext.snackBar
 import com.obsez.mobile.meijue.ui.ext.span
 import com.obsez.mobile.meijue.ui.ext.startActivity
@@ -72,8 +72,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         //Error: textView1.movementMethod = BetterLinkMovementMethod.getInstance()
         //Error: textView1.autoLinkMask = Linkify.ALL
         
-        //val s1 = "constructs".withTextSpan().bold()
-        val ss = span {
+        val italicSpan = span {
             italic {
                 link("https://github.com/hedzr", {
                     Timber.v("clicked on $it")
@@ -83,10 +82,10 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
                     text("hedzr")
                 }
                 +" "
-                
+        
                 bold { text("constructs") }
                 +" "
-                
+        
                 foregroundColor(Color.RED) {
                     link("https://github.com/hedzr/meijue-ui", {
                         Timber.v("clicked on $it")
@@ -97,6 +96,10 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
                     }
                 }
             }
+        }
+        //val s1 = "constructs".withTextSpan().bold()
+        val ss = span {
+            plus(italicSpan)
             
             +" ok.\n"
             

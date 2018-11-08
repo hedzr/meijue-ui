@@ -19,6 +19,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.google.android.material.snackbar.Snackbar
+import com.obsez.mobile.meijue.ui.R
 import org.jetbrains.annotations.NotNull
 
 
@@ -37,6 +38,14 @@ fun Activity.hideKeyboard(): Boolean {
     }
     return false
 }
+
+
+fun AppCompatActivity.setHomeAsUpIndicator(@DrawableRes resId: Int) {
+    supportActionBar?.setHomeAsUpIndicator(resId)
+}
+
+fun AppCompatActivity.setHomeAsUpIndicatorWithBack() = setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
+fun AppCompatActivity.setHomeAsUpIndicatorWithMenu() = setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
 
 
 /**
