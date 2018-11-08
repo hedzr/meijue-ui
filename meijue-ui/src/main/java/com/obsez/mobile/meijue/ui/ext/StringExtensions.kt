@@ -132,5 +132,14 @@ fun String.toRadix31Integer(): Int = Radix31.stringToJava31radix(this)
 fun Int.toRadix31String(): String = Radix31.intToJava31radix(this)
 
 
+inline fun <reified T : CharSequence> String.ptn(map: Map<String, T>): CharSequence {
+    return """\{(.*?)}""".toRegex().replace(this) { mr ->
+        // println(mr.groupValues[1] + " position: [" + mr.range + "]")
+        if (map.containsKey(mr.groupValues[1])) map[mr.groupValues[1]]!! else mr.value
+    }
+}
+
+
+
 
 
