@@ -155,7 +155,7 @@ fun Drawable.toBitmap(): Bitmap {
  * NOTE: setMaskFilter 不支持硬件加速，makeGlow() 需要关闭硬件加速才能生效。
  */
 @Suppress("LocalVariableName")
-fun Bitmap.applyGlow(length: Int = 16, clearColor: Int = 0xffffff, blurStyle: BlurMaskFilter.Blur = BlurMaskFilter.Blur.OUTER): Bitmap? {
+fun Bitmap.applyGlow(length: Int = 16, clearColor: Int = 0xffffff, blurStyle: BlurMaskFilter.Blur = BlurMaskFilter.Blur.OUTER): Bitmap {
     // create new bitmap, which will be painted and becomes result image
     val bmOut = Bitmap.createBitmap(this.width + length * 2, this.height + length * 2, Bitmap.Config.ARGB_8888)
     // setup canvas for painting
