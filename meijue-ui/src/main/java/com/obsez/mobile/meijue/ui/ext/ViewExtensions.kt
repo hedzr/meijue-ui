@@ -13,10 +13,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.obsez.mobile.meijue.ui.util.Utils
 import com.squareup.picasso.Picasso
@@ -85,6 +87,73 @@ fun View.fadeIn(duration: Long = 500): ViewPropertyAnimator {
         .alpha(1.0f)
         .setDuration(duration)
 }
+
+
+inline var View.layoutCollapseMode: Int
+    get() {
+        val params = layoutParams
+        val newParams: CollapsingToolbarLayout.LayoutParams
+        newParams = if (params is CollapsingToolbarLayout.LayoutParams) {
+            params
+        } else {
+            CollapsingToolbarLayout.LayoutParams(params)
+        }
+        return newParams.collapseMode
+    }
+    set(value) {
+        val params = layoutParams
+        val newParams: CollapsingToolbarLayout.LayoutParams
+        newParams = if (params is CollapsingToolbarLayout.LayoutParams) {
+            params
+        } else {
+            CollapsingToolbarLayout.LayoutParams(params)
+        }
+        if (newParams.collapseMode != value) {
+            newParams.collapseMode = value
+            this.layoutParams = newParams
+            this.requestLayout()
+        }
+    }
+
+inline var View.layoutParallaxMultiplier: Float
+    get() {
+        val params = layoutParams
+        val newParams: CollapsingToolbarLayout.LayoutParams
+        newParams = if (params is CollapsingToolbarLayout.LayoutParams) {
+            params
+        } else {
+            CollapsingToolbarLayout.LayoutParams(params)
+        }
+        return newParams.parallaxMultiplier
+    }
+    set(value) {
+        val params = layoutParams
+        val newParams: CollapsingToolbarLayout.LayoutParams
+        newParams = if (params is CollapsingToolbarLayout.LayoutParams) {
+            params
+        } else {
+            CollapsingToolbarLayout.LayoutParams(params)
+        }
+        if (newParams.parallaxMultiplier != value) {
+            newParams.parallaxMultiplier = value
+            this.layoutParams = newParams
+            this.requestLayout()
+        }
+    }
+
+
+inline var View.behavior: CoordinatorLayout.Behavior<*>?
+    get() {
+        if (layoutParams is CoordinatorLayout.LayoutParams) {
+            return (layoutParams as CoordinatorLayout.LayoutParams).behavior
+        }
+        return null
+    }
+    set(value) {
+        if (layoutParams is CoordinatorLayout.LayoutParams) {
+            (layoutParams as CoordinatorLayout.LayoutParams).behavior = value
+        }
+    }
 
 
 /**
