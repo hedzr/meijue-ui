@@ -2,8 +2,13 @@
 
 package com.obsez.mobile.meijue.ui.ext
 
+import android.content.Context
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.Base64
 import android.util.Patterns
+import com.bumptech.glide.Glide
 import com.obsez.mobile.meijue.ui.util.Radix31
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
@@ -139,6 +144,17 @@ inline fun <reified T : CharSequence> String.ptn(map: Map<String, T>): CharSeque
     }
 }
 
+
+fun String.htmlToSpan(context: Context, imageGetter: Html.ImageGetter = Html.ImageGetter {
+    Glide.with(context).load(it).submit(-1, -1).get()
+}): Spanned {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY, imageGetter, null)
+    } else {
+        @Suppress("DEPRECATION")
+        Html.fromHtml(this, imageGetter, null)
+    }
+}
 
 
 

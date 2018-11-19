@@ -23,6 +23,7 @@ import com.obsez.mobile.leshananim.ui.login.LoginActivity
 import com.obsez.mobile.leshananim.ui.login.LoginBottomSheetDialogFragment
 import com.obsez.mobile.leshananim.ui.settings.SettingsActivity
 import com.obsez.mobile.meijue.ui.base.ToolbarAnimActivity
+import com.obsez.mobile.meijue.ui.ext.htmlToSpan
 import com.obsez.mobile.meijue.ui.ext.snackBar
 import com.obsez.mobile.meijue.ui.ext.span
 import com.obsez.mobile.meijue.ui.ext.startActivity
@@ -141,8 +142,7 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
         
         //textView2.autoLinkMask = Linkify.ALL
         //textView2.text = Html.fromHtml("Looking for the regular mj App? \n", 0)
-        textView2.text = Html.fromHtml(
-            "<a href=\"https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim\">Hello, MeiJue-UI Lib Demo!</a>\n", 0)
+        textView2.text = "<a href=\"https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim\">Hello, MeiJue-UI Lib Demo!</a>\n".htmlToSpan(this)
         textView2.movementMethod = BetterLinkMovementMethod.getInstance()
         
         
