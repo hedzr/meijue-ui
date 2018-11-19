@@ -26,6 +26,17 @@ interface Entering {
     fun onConnectToTabs(frameElements: FrameElements)
     fun onDisconnectFromTabs(frameElements: FrameElements)
     
+    /**
+     * 指示 Owner Activity 应该将 Home 按钮显示为 后退还是汉堡包
+     */
     val navigateBack: Boolean
+    /**
+     * 指示 Owner Activity 应该将 Home 按钮显示为 白色还是黑色
+     */
+    val navigateIconWhite: Boolean
+    /**
+     * 使用 Owner Activity 的 Tabs 还是Fragment自己定义的tabs
+     */
+    val useParentTabs: Boolean
     
 }

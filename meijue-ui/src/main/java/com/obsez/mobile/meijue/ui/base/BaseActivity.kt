@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +48,10 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
         get() = null
     override val fabUi: FloatingActionButton?
         get() = null
+    
+    //fun getSupportFragmentManager(): FragmentManager {
+    //    return mFragments.supportFragmentManager
+    //}
     
     protected var lastAttachedFragment: WeakReference<Fragment>? = null
     

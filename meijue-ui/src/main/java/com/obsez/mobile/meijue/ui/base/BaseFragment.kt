@@ -3,16 +3,17 @@ package com.obsez.mobile.meijue.ui.base
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.MenuItem
+import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.obsez.mobile.meijue.ui.base.fr.Entering
 import com.obsez.mobile.meijue.ui.base.fr.FrameElements
-import com.obsez.mobile.meijue.ui.ext.setHomeAsUpIndicatorWithBack
-import com.obsez.mobile.meijue.ui.ext.setHomeAsUpIndicatorWithMenu
+import com.obsez.mobile.meijue.ui.ext.*
 import timber.log.Timber
 
 
@@ -25,6 +26,19 @@ open class BaseFragment : Fragment(), Entering {
     override val navigateBack: Boolean
         get() = false
     
+    /**
+     * 指示 Owner Activity 应该将 Home 按钮显示为 白色还是黑色
+     */
+    override val navigateIconWhite: Boolean
+        get() = false
+    
+    /**
+     * 使用 Owner Activity 的 Tabs 还是Fragment自己定义的tabs;
+     * 是否使用 Owner Activity 的 Tabs
+     */
+    override val useParentTabs: Boolean
+        get() = false
+    
     @Suppress("MemberVisibilityCanBePrivate")
     internal var defaultFrameElementsAction = true
     
@@ -34,10 +48,12 @@ open class BaseFragment : Fragment(), Entering {
         Timber.d("onResume: $this, to: $activity")
         
         if (activity != null) {
-            if (navigateBack)
-                (activity as AppCompatActivity).setHomeAsUpIndicatorWithBack()
-            else
-                (activity as AppCompatActivity).setHomeAsUpIndicatorWithMenu()
+            (activity as AppCompatActivity).let { a ->
+                if (navigateBack)
+                    if(navigateIconWhite) a.setHomeAsUpIndicatorWithBackWhite() else a.setHomeAsUpIndicatorWithBack()
+                else
+                    if(navigateIconWhite) a.setHomeAsUpIndicatorWithMenuWhite() else a.setHomeAsUpIndicatorWithMenu()
+            }
             
             if (activity is FrameElements)
                 (activity as FrameElements).let {
@@ -62,8 +78,45 @@ open class BaseFragment : Fragment(), Entering {
     //    super.onPrepareOptionsMenu(menu)
     //}
     
-    override fun onConnectToTabs(frameElements: FrameElements) {
+    // var View.layoutCollapseMode: Int
+    //     get() {
+    //         val params = layoutParams
+    //         val newParams: CollapsingToolbarLayout.LayoutParams
+    //         newParams = if (params is CollapsingToolbarLayout.LayoutParams) {
+    //             params
+    //         } else {
+    //             CollapsingToolbarLayout.LayoutParams(params)
+    //         }
+    //         return newParams.collapseMode
+    //     }
+    //     set(value) {
+    //         val params = layoutParams
+    //         val newParams: CollapsingToolbarLayout.LayoutParams
+    //         newParams = if (params is CollapsingToolbarLayout.LayoutParams) {
+    //             params
+    //         } else {
+    //             CollapsingToolbarLayout.LayoutParams(params)
+    //         }
+    //         if (newParams.collapseMode != value) {
+    //             newParams.collapseMode = value
+    //             this.layoutParams = newParams
+    //             this.requestLayout()
+    //         }
+    //     }
     
+    override fun onConnectToTabs(frameElements: FrameElements) {
+        frameElements.tabLayoutUi?.let {
+            if (useParentTabs) {
+                it.clearOnTabSelectedListeners()
+                it.removeAllTabs()
+    
+                it.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_OFF
+                it.visibility = View.VISIBLE
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
     }
     
     override fun onDisconnectFromTabs(frameElements: FrameElements) {
@@ -83,6 +136,7 @@ open class BaseFragment : Fragment(), Entering {
                 isCollapsingToolbarInExpandedMode = true
                 motionFab(true)
                 motionBnv(true)
+                //tabLayoutUi?.apply { visibility = if (useParentTabs) View.VISIBLE else View.GONE }
             }
         }
     }
@@ -100,7 +154,7 @@ open class BaseFragment : Fragment(), Entering {
         val lockMode = if (lock) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED
         drawerLayoutUi?.setDrawerLockMode(lockMode)
         
-        actionBarDrawerToggleUi?.isDrawerIndicatorEnabled = lock
+        actionBarDrawerToggleUi?.isDrawerIndicatorEnabled = !lock
     }
     
     var FrameElements.isCollapsingToolbarInExpandedMode: Boolean

@@ -1,5 +1,7 @@
 package com.obsez.mobile.meijue.ui.base.fr
 
+import androidx.fragment.app.FragmentManager
+
 
 /**
  *
@@ -19,6 +21,10 @@ interface FrameElements {
     
     val bottomNavigationViewUi: com.google.android.material.bottomnavigation.BottomNavigationView?
     val fabUi: com.google.android.material.floatingactionbutton.FloatingActionButton?
+    
+    
+    fun getSupportFragmentManager(): FragmentManager
+    
 }
 
 

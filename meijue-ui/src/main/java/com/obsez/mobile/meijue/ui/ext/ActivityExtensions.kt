@@ -46,6 +46,8 @@ fun AppCompatActivity.setHomeAsUpIndicator(@DrawableRes resId: Int) {
 
 fun AppCompatActivity.setHomeAsUpIndicatorWithBack() = setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
 fun AppCompatActivity.setHomeAsUpIndicatorWithMenu() = setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+fun AppCompatActivity.setHomeAsUpIndicatorWithBackWhite() = setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+fun AppCompatActivity.setHomeAsUpIndicatorWithMenuWhite() = setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
 
 
 /**
