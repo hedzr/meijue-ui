@@ -3,6 +3,7 @@ package com.obsez.mobile.meijue.ui.base
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.PersistableBundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,20 +13,33 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.obsez.mobile.meijue.ui.R
 import com.obsez.mobile.meijue.ui.base.fr.Entering
 import com.obsez.mobile.meijue.ui.base.fr.FrameElements
+import com.obsez.mobile.meijue.ui.ext.snackBar
 import com.obsez.mobile.meijue.ui.pref.PreferenceUtil
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class BaseActivity : AppCompatActivity(), FrameElements {
+    
+    /**
+     * 当回退栈仅剩一个fragment时，是否立即退出app
+     */
+    open var allowExitAtLastFragment: Boolean = false
+    /**
+     * 双击返回按钮才会退出app
+     */
+    open var allowDoubleTapToExit: Boolean = false
+    
     
     override val drawerLayoutUi: DrawerLayout?
         get() = null
@@ -156,5 +170,87 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
             else -> super.onOptionsItemSelected(item)
         }
     }
+    
+    
+    //
+    
+    
+    fun fixBackStack(): Fragment? {
+        val af = supportFragmentManager.activeFragment
+        if (af != null) {
+            val ft = supportFragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            ft.show(af)
+            ft.commitAllowingStateLoss()
+        }
+        return af
+    }
+    
+    /**
+     *
+     * Activity + 多Frament 使用时的一些坑.md
+     * https://github.com/gpfduoduo/android-article/blob/master/Activity%20%2B%20%E5%A4%9AFrament%20%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91.md
+     *
+     */
+    
+    inline val FragmentManager.activeFragment: Fragment?
+        get() {
+            if (this.backStackEntryCount > 0) {
+                val entry = this.getBackStackEntryAt(this.backStackEntryCount - 1)
+                return this.findFragmentByTag(entry.name)
+            }
+            return null
+        }
+    
+    
+    fun superOnBackPressed() {
+        super.onBackPressed()
+    }
+    
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        
+        Timber.d("onBackPressed()")
+        
+        val fragmentManager = this.supportFragmentManager
+        val isStateSaved = fragmentManager.isStateSaved
+        // if (isStateSaved && Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
+        //     // Older versions will throw an exception from the framework
+        //     // FragmentManager.popBackStackImmediate(), so we'll just
+        //     // return here. The Activity is likely already on its way out
+        //     // since the fragmentManager has already been saved.
+        //     return
+        // }
+        if (!isStateSaved || Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            if (allowExitAtLastFragment) {
+                // 当只有初始fragment时，不允许弹出backStack，而是应该退出app了
+                if (fragmentManager.backStackEntryCount > 1) {
+                    this.doubleBackToExitPressedOnce = false
+                    superOnBackPressed()
+                    fixBackStack()
+                    return
+                }
+            }
+        }
+        
+        
+        if (allowDoubleTapToExit) {
+            if (doubleBackToExitPressedOnce) {
+                if (fragmentManager.backStackEntryCount == 1) {
+                    fragmentManager.popBackStack() // 弹出初始fragment
+                }
+                superOnBackPressed()
+                this.doubleBackToExitPressedOnce = false
+                return
+            }
+            
+            this.doubleBackToExitPressedOnce = true
+            snackBar(getString(R.string.twice_back_pressed_to_exit))
+            
+            Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+        } else
+            superOnBackPressed()
+    }
+    
     
 }

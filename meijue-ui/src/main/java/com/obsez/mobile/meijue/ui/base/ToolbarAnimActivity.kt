@@ -73,9 +73,9 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
         super.onBackPressed()
     }
     
-    fun superOnBackPressed() {
-        super.onBackPressed()
-    }
+    //fun superOnBackPressed() {
+    //    super.onBackPressed()
+    //}
     
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will

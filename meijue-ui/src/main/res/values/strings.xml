@@ -1,4 +1,9 @@
 <resources>
+
     <string name="app_name">meijue-ui</string>
+
     <string name="default_user_name">David Pierce</string>
+
+    <string name="twice_back_pressed_to_exit">Please click BACK again to exit</string>
+
 </resources>
