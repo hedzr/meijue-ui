@@ -105,22 +105,36 @@ open class BaseFragment : Fragment(), Entering {
     //     }
     
     override fun onConnectToTabs(frameElements: FrameElements) {
-        frameElements.tabLayoutUi?.let {
+        Timber.v("onConnectToTabs()")
+        frameElements.tabLayoutUi?.let { tabs ->
             if (useParentTabs) {
-                it.clearOnTabSelectedListeners()
-                it.removeAllTabs()
-    
-                it.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_OFF
-                it.visibility = View.VISIBLE
+                //tabs.clearOnTabSelectedListeners()
+                //tabs.removeAllTabs()
+            
+                tabs.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
+                tabs.visibility = View.VISIBLE
             } else {
-                it.visibility = View.GONE
+                tabs.visibility = View.GONE
+            }
+        
+            frameElements.viewPagerUi?.let{ vp ->
+                tabs.setupWithViewPager(vp)
+                //vp.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+                //tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(vp))
             }
         }
         frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
     }
     
     override fun onDisconnectFromTabs(frameElements: FrameElements) {
-    
+        Timber.v("onDisconnectFromTabs()")
+        frameElements.tabLayoutUi?.let { tabs ->
+            // tabs.visibility = View.INVISIBLE
+            //tabs.removeAllTabs()
+            //tabs.clearOnTabSelectedListeners()
+            //view_pager.clearOnPageChangeListeners()
+            tabs.setupWithViewPager(null)
+        }
     }
     
     override fun onAttachToActivity(frameElements: FrameElements) {
