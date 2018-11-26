@@ -50,9 +50,9 @@ open class BaseFragment : Fragment(), Entering {
         if (activity != null) {
             (activity as AppCompatActivity).let { a ->
                 if (navigateBack)
-                    if(navigateIconWhite) a.setHomeAsUpIndicatorWithBackWhite() else a.setHomeAsUpIndicatorWithBack()
+                    if (navigateIconWhite) a.setHomeAsUpIndicatorWithBackWhite() else a.setHomeAsUpIndicatorWithBack()
                 else
-                    if(navigateIconWhite) a.setHomeAsUpIndicatorWithMenuWhite() else a.setHomeAsUpIndicatorWithMenu()
+                    if (navigateIconWhite) a.setHomeAsUpIndicatorWithMenuWhite() else a.setHomeAsUpIndicatorWithMenu()
             }
             
             if (activity is FrameElements)
@@ -110,18 +110,19 @@ open class BaseFragment : Fragment(), Entering {
             if (useParentTabs) {
                 //tabs.clearOnTabSelectedListeners()
                 //tabs.removeAllTabs()
-            
+                
                 tabs.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
                 tabs.visibility = View.VISIBLE
+                
+                frameElements.viewPagerUi?.let { vp ->
+                    tabs.setupWithViewPager(vp)
+                    //vp.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+                    //tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(vp))
+                }
             } else {
                 tabs.visibility = View.GONE
             }
-        
-            frameElements.viewPagerUi?.let{ vp ->
-                tabs.setupWithViewPager(vp)
-                //vp.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-                //tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(vp))
-            }
+            
         }
         frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
     }
@@ -133,7 +134,9 @@ open class BaseFragment : Fragment(), Entering {
             //tabs.removeAllTabs()
             //tabs.clearOnTabSelectedListeners()
             //view_pager.clearOnPageChangeListeners()
-            tabs.setupWithViewPager(null)
+            if (useParentTabs) {
+                tabs.setupWithViewPager(null)
+            }
         }
     }
     
