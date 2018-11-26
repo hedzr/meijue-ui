@@ -111,7 +111,7 @@ inline var View.layoutCollapseMode: Int
         if (newParams.collapseMode != value) {
             newParams.collapseMode = value
             this.layoutParams = newParams
-            this.requestLayout()
+            //this.requestLayout()
         }
     }
 
@@ -137,7 +137,7 @@ inline var View.layoutParallaxMultiplier: Float
         if (newParams.parallaxMultiplier != value) {
             newParams.parallaxMultiplier = value
             this.layoutParams = newParams
-            this.requestLayout()
+            //this.requestLayout()
         }
     }
 

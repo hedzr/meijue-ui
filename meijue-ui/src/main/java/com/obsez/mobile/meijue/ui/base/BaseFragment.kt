@@ -122,7 +122,6 @@ open class BaseFragment : Fragment(), Entering {
             } else {
                 tabs.visibility = View.GONE
             }
-            
         }
         frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
     }
