@@ -111,7 +111,7 @@ open class BaseFragment : Fragment(), Entering {
                 //tabs.clearOnTabSelectedListeners()
                 //tabs.removeAllTabs()
                 
-                tabs.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
+                tabs.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN //
                 tabs.visibility = View.VISIBLE
                 
                 frameElements.viewPagerUi?.let { vp ->
