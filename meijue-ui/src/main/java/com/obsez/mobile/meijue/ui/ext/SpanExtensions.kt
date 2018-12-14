@@ -268,3 +268,256 @@ fun TextView.setText(textSpan: TextSpan) {
     text = textSpan.toCharSequence()
 }
 
+
+// //////////////////////////////////////////
+
+
+/**
+ *
+ */
+class TextSpan2(content: CharSequence) {
+    //所有样式
+    internal val styles = mutableListOf(mutableListOf<CharacterStyle>())
+    internal val textConstructor = mutableListOf(content)
+    
+    //    var startIndex = 0
+    //        private set(value) {
+    //            field = value
+    //            endIndex = value + content.length
+    //        }
+    //    var endIndex = 0
+    //        private set
+    
+    fun backgroundColor(colorVal: Int): TextSpan2 {
+        styles[0].add(BackgroundColorSpan(colorVal))
+        return this
+    }
+    
+    fun foregroundColor(colorVal: Int): TextSpan2 {
+        styles[0].add(ForegroundColorSpan(colorVal))
+        return this
+    }
+    
+    /**
+     * 模糊(BlurMaskFilter)、浮雕(EmbossMaskFilter) BlurMaskFilter
+     */
+    fun maskFilter(maskFilter: MaskFilter): TextSpan2 {
+        styles[0].add(MaskFilterSpan(maskFilter))
+        return this
+    }
+    
+    //    /**
+    //     * 光栅效果 StrikethroughSpan()
+    //     */
+    //    fun rasterizer(rasterizer: Rasterizer) :TextSpan {
+    //        styles[0].add(RasterizerSpan(rasterizer))
+    //        return this
+    //    }
+    
+    /**
+     * 删除线（中划线）
+     */
+    fun strikethrough(): TextSpan2 {
+        styles[0].add(StrikethroughSpan())
+        return this
+    }
+    
+    /**
+     * 下划线
+     */
+    fun underline(): TextSpan2 {
+        styles[0].add(UnderlineSpan())
+        return this
+    }
+    
+    /**
+     * 设置图片 （DynamicDrawableSpan.ALIGN_BASELINE  or DynamicDrawableSpan.ALIGN_BOTTOM）
+     */
+    fun dynamicDrawable(drawable: Drawable, isAlignBaseLine: Boolean): TextSpan2 {
+        styles[0].add(object : DynamicDrawableSpan(if (isAlignBaseLine) DynamicDrawableSpan.ALIGN_BASELINE else DynamicDrawableSpan.ALIGN_BOTTOM) {
+            override fun getDrawable(): Drawable {
+                drawable.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
+                return drawable
+            }
+        })
+        return this
+    }
+    
+    /**
+     * 字体大小(像素)
+     */
+    fun absoluteSize(textSize: Int): TextSpan2 {
+        styles[0].add(AbsoluteSizeSpan(textSize, false))
+        return this
+    }
+    
+    /**
+     * 图片
+     */
+    fun image(drawable: Drawable, width: Int = drawable.minimumWidth, height: Int = drawable.minimumHeight): TextSpan2 {
+        drawable.setBounds(0, 0, width, height)
+        styles[0].add(ImageSpan(drawable))
+        return this
+    }
+    
+    /**
+     * ScaleXSpan 基于x轴缩放
+     */
+    fun scaleX(scaleRate: Float): TextSpan2 {
+        styles[0].add(ScaleXSpan(scaleRate))
+        return this
+    }
+    
+    /**
+     *  相对大小（文本字体）
+     */
+    fun relativeSize(scanRate: Float): TextSpan2 {
+        styles[0].add(RelativeSizeSpan(scanRate))
+        return this
+    }
+    
+    /**
+     *  字体样式：粗体、斜体等 Typeface
+     */
+    fun style(typeface: Int): TextSpan2 {
+        styles[0].add(StyleSpan(typeface))
+        return this
+    }
+    
+    fun bold() = style(Typeface.BOLD)
+    fun italic() = style(Typeface.ITALIC)
+    fun boldItalic() = style(Typeface.BOLD_ITALIC)
+    fun normal() = style(Typeface.NORMAL)
+    
+    
+    /**
+     * 下标（数学公式会用到）
+     */
+    fun subScript(): TextSpan2 {
+        styles[0].add(SubscriptSpan())
+        return this
+    }
+    
+    /**
+     * 上标（数学公式会用到）
+     */
+    fun superScript(): TextSpan2 {
+        styles[0].add(SuperscriptSpan())
+        return this
+    }
+    
+    /**
+     * 文本字体
+     */
+    fun typeface(typeface: String): TextSpan2 {
+        styles[0].add(TypefaceSpan(typeface))
+        return this
+    }
+    
+    /**
+     * 文本超链接
+     */
+    fun url(linkAddress: String?): TextSpan2 {
+        if (linkAddress != null)
+            styles[0].add(URLSpan(linkAddress))
+        return this
+    }
+    
+    fun link(linkAddress: String?): TextSpan2 {
+        if (linkAddress != null)
+            styles[0].add(URLSpan(linkAddress))
+        return this
+    }
+    
+    
+    operator fun plus(nextVal: TextSpan2): TextSpan2 {
+        styles.addAll(nextVal.styles)
+        textConstructor.addAll(nextVal.textConstructor)
+        return this
+    }
+    
+    operator fun plus(nextVal: CharSequence): TextSpan2 {
+        //styles.addAll(TextSpan(nextVal))
+        textConstructor.add(nextVal)
+        val style = mutableListOf<CharacterStyle>()
+        //style.add(TypefaceSpan(Typeface.NORMAL))
+        styles.add(style)
+        return this
+    }
+    
+    //    operator fun plusAssign(nextVal: TextSpan) {
+    //        //styles.addAll(TextSpan(nextVal))
+    //        styles.addAll(nextVal.styles)
+    //        textConstructor.addAll(nextVal.textConstructor)
+    //    }
+    //
+    //    operator fun plusAssign(nextVal: CharSequence) {
+    //        //styles.addAll(TextSpan(nextVal))
+    //        textConstructor.add(nextVal)
+    //    }
+    
+    
+    fun toTextView(tv: TextView) {
+        val builder = StringBuilder()
+        this.textConstructor.forEach {
+            builder.append(it)
+        }
+        
+        val spanStr = SpannableString(builder.toString())
+        var index = 0
+        this.textConstructor.forEachIndexed { position, str ->
+            val end = index + str.length
+            this.styles[position].forEach {
+                spanStr.setSpan(it, index, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                if (it is URLSpan) tv.movementMethod = LinkMovementMethod()
+            }
+            index += str.length
+        }
+        tv.text = spanStr
+    }
+    
+    fun toCharSequence(): CharSequence {
+        val builder = StringBuilder()
+        this.textConstructor.forEach {
+            builder.append(it)
+        }
+        
+        val spanStr = SpannableString(builder.toString())
+        var index = 0
+        this.textConstructor.forEachIndexed { position, str ->
+            val end = index + str.length
+            this.styles[position].forEach {
+                spanStr.setSpan(it, index, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                // if (it is URLSpan) tv.movementMethod = LinkMovementMethod()
+            }
+            index += str.length
+        }
+        return spanStr
+    }
+}
+
+
+fun String.withTextSpan2() = TextSpan2(this)
+
+
+fun TextView.setText(textSpan: TextSpan2) {
+    val builder = StringBuilder()
+    textSpan.textConstructor.forEach {
+        builder.append(it)
+    }
+    
+    val spanStr = SpannableString(builder.toString())
+    var index = 0
+    textSpan.textConstructor.forEachIndexed { position, str ->
+        val end = index + str.length
+        textSpan.styles[position].forEach {
+            spanStr.setSpan(it, index, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            if (it is URLSpan) this.movementMethod = LinkMovementMethod()
+        }
+        index += str.length
+    }
+    text = spanStr
+}
+
+
+

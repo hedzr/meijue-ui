@@ -34,9 +34,16 @@ interface Entering {
      * 指示 Owner Activity 应该将 Home 按钮显示为 白色还是黑色
      */
     val navigateIconWhite: Boolean
+    
     /**
      * 使用 Owner Activity 的 Tabs 还是Fragment自己定义的tabs
      */
     val useParentTabs: Boolean
+    
+    /**
+     * 是否使用自定义的Home Button。
+     * `navigateIconWhite` 需要这个标志为true
+     */
+    val navigateIconCustomized: Boolean
     
 }

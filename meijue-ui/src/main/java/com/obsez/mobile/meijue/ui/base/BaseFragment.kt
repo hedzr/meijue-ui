@@ -33,6 +33,13 @@ open class BaseFragment : Fragment(), Entering {
         get() = false
     
     /**
+     * 是否使用自定义的Home Button。
+     * `navigateBack` & `navigateIconWhite` 需要这个标志为true
+     */
+    override val navigateIconCustomized: Boolean
+        get() = false
+    
+    /**
      * 使用 Owner Activity 的 Tabs 还是Fragment自己定义的tabs;
      * 是否使用 Owner Activity 的 Tabs
      */
@@ -48,11 +55,17 @@ open class BaseFragment : Fragment(), Entering {
         Timber.d("onResume: $this, to: $activity")
         
         if (activity != null) {
-            (activity as AppCompatActivity).let { a ->
-                if (navigateBack)
-                    if (navigateIconWhite) a.setHomeAsUpIndicatorWithBackWhite() else a.setHomeAsUpIndicatorWithBack()
-                else
-                    if (navigateIconWhite) a.setHomeAsUpIndicatorWithMenuWhite() else a.setHomeAsUpIndicatorWithMenu()
+            if (activity is AppCompatActivity) {
+                (activity as AppCompatActivity).let { a ->
+                    a.supportActionBar?.setHomeButtonEnabled(true)
+                    a.supportActionBar?.setDisplayHomeAsUpEnabled(navigateBack)
+                    if (navigateIconCustomized) {
+                        if (navigateBack)
+                            if (navigateIconWhite) a.setHomeAsUpIndicatorWithBackWhite() else a.setHomeAsUpIndicatorWithBack()
+                        else
+                            if (navigateIconWhite) a.setHomeAsUpIndicatorWithMenuWhite() else a.setHomeAsUpIndicatorWithMenu()
+                    }
+                }
             }
             
             if (activity is FrameElements)
@@ -106,13 +119,20 @@ open class BaseFragment : Fragment(), Entering {
     
     override fun onConnectToTabs(frameElements: FrameElements) {
         Timber.v("onConnectToTabs()")
+        frameElements.collapsingToolbarLayoutUi?.layoutScrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED
+        frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
         frameElements.tabLayoutUi?.let { tabs ->
             if (useParentTabs) {
                 //tabs.clearOnTabSelectedListeners()
                 //tabs.removeAllTabs()
                 
-                tabs.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN //
                 tabs.visibility = View.VISIBLE
+                tabs.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_OFF
+                frameElements.toolbarUi?.layoutScrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PARALLAX
+                frameElements.collapsingToolbarLayoutUi?.layoutScrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+                frameElements.collapsingToolbarLayoutUi?.parent?.requestLayout()
+                Timber.v("onConnectToTabs() with tabs")
                 
                 frameElements.viewPagerUi?.let { vp ->
                     tabs.setupWithViewPager(vp)
@@ -123,7 +143,7 @@ open class BaseFragment : Fragment(), Entering {
                 tabs.visibility = View.GONE
             }
         }
-        frameElements.toolbarUi?.layoutCollapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
+        frameElements.collapsingToolbarLayoutUi?.parent?.requestLayout()
     }
     
     override fun onDisconnectFromTabs(frameElements: FrameElements) {
