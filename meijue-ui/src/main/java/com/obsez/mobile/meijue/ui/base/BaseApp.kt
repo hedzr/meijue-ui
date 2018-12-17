@@ -4,7 +4,7 @@ import android.app.Application
 import com.obsez.mobile.meijue.ui.MeijueUiAppModule
 
 /**
- * Just a sample
+ * Just a sample Application class
  */
 abstract class BaseApp : Application() {
     

@@ -73,9 +73,12 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
         super.onBackPressed()
     }
     
-    //fun superOnBackPressed() {
-    //    super.onBackPressed()
-    //}
+    /**
+     *
+     */
+    fun taaSuperOnBackPressed() {
+        super.onBackPressed()
+    }
     
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -93,7 +96,7 @@ public abstract class ToolbarAnimActivity : BaseActivity(), NavigationView.OnNav
                 }
                 //mDrawerLayout.openDrawer(GravityCompat.START); return true
                 else
-                    onBackPressed()
+                    super.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

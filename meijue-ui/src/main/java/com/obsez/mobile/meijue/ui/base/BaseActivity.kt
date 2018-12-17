@@ -202,11 +202,13 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
         }
     
     
-    fun superOnBackPressed() {
+    /**
+     * baSuperOnBackPressed
+     */
+    fun baSuperOnBackPressed() {
         super.onBackPressed()
     }
     
-    private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         //super.onBackPressed()
         
@@ -226,7 +228,7 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
                 // 当只有初始fragment时，不允许弹出backStack，而是应该退出app了
                 if (fragmentManager.backStackEntryCount > 1) {
                     this.doubleBackToExitPressedOnce = false
-                    superOnBackPressed()
+                    baSuperOnBackPressed()
                     fixBackStack()
                     return
                 }
@@ -239,7 +241,7 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
                 if (fragmentManager.backStackEntryCount == 1) {
                     fragmentManager.popBackStack() // 弹出初始fragment
                 }
-                superOnBackPressed()
+                baSuperOnBackPressed()
                 this.doubleBackToExitPressedOnce = false
                 return
             }
@@ -249,8 +251,10 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
             
             Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
         } else
-            superOnBackPressed()
+            baSuperOnBackPressed()
     }
+    
+    private var doubleBackToExitPressedOnce = false
     
     
 }
