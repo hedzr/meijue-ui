@@ -1,5 +1,7 @@
 package com.obsez.mobile.meijue.ui.ext
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -93,6 +95,14 @@ fun Context.fromDrawable(@DrawableRes drawableId: Int): Bitmap {
     return BitmapFactory.decodeResource(resources, drawableId)
 }
 
+
+fun Context.copyToClipboard(data: String, showToast: Boolean = true) {
+    val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("clipboard", data)
+    clipboard.primaryClip = clip
+    if (showToast)
+        Toast.makeText(this, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+}
 
 
 

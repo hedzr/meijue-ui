@@ -331,3 +331,24 @@ fun View.flyOutDown(duration: Long = 200L, animListener: ((View) -> Unit)? = nul
 }
 
 
+fun View.toggleArrow(): Boolean {
+    return if (this.rotation == 0f) {
+        this.animate().setDuration(200).rotation(180f)
+        true
+    } else {
+        this.animate().setDuration(200).rotation(0f)
+        false
+    }
+}
+
+fun View.toggleArrow(show: Boolean, delay: Boolean = true): Boolean {
+    return if (show) {
+        this.animate().setDuration((if (delay) 200 else 0).toLong()).rotation(180f)
+        true
+    } else {
+        this.animate().setDuration((if (delay) 200 else 0).toLong()).rotation(0f)
+        false
+    }
+}
+
+

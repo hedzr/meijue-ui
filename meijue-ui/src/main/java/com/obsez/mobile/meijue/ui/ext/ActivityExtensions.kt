@@ -281,6 +281,46 @@ fun Activity.firstCoordinatorLayout(): CoordinatorLayout? {
 }
 
 
+/**
+ * @param color res id eg: R.color.colorPrimaryDark
+ */
+fun Activity.setSystemBarColor(@ColorRes color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = this.resources.getColor(color)
+    }
+}
+
+fun Activity.setSystemBarLight() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val view = this.findViewById<View>(android.R.id.content)
+        var flags = view.systemUiVisibility
+        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        view.systemUiVisibility = flags
+    }
+}
+
+/**
+ * @param color res id eg: R.color.colorPrimaryDark
+ */
+fun Activity.clearSystemBarLight(@ColorRes colorReset: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        window.statusBarColor = ContextCompat.getColor(this, colorReset)
+    }
+}
+
+/**
+ * Making notification bar transparent
+ */
+fun Activity.setSystemBarTransparent() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = Color.TRANSPARENT
+    }
+}
+
+
 
 
 

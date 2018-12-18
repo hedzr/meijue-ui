@@ -5,10 +5,12 @@ import android.app.Activity
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.ImageButton
+import androidx.annotation.ColorInt
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
@@ -112,3 +114,29 @@ fun Toolbar.colorize(toolbarIconsColor: Int) {
     ToolbarColorizeHelper.colorizeToolbar(this, toolbarIconsColor, this.context as Activity)
 }
 
+
+fun Toolbar.changeNavigateionIconColor(@ColorInt color: Int) {
+    this.navigationIcon?.apply {
+        mutate()
+        setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    }
+}
+
+fun Menu.changeMenuIconColor(@ColorInt color: Int) {
+    for (i in 0 until this.size()) {
+        val drawable = this.getItem(i).icon ?: continue
+        drawable.mutate()
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    }
+}
+
+fun Toolbar.changeOverflowMenuIconColor(@ColorInt color: Int) {
+    try {
+        this.overflowIcon?.apply {
+            mutate()
+            setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
+    } catch (e: Exception) {
+    }
+    
+}

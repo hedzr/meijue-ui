@@ -156,6 +156,27 @@ fun String.htmlToSpan(context: Context, imageGetter: Html.ImageGetter = Html.Ima
     }
 }
 
+/**
+ * convert the hyphen-string and spaced-string/words to Camel Case.
+ * such as: 'a child' -> aChild, 'a-child' -> aChild
+ */
+fun String.toCamelCase(): String {
+    val titleCase = StringBuilder()
+    var nextTitleCase = true
+    
+    for (c in this.toLowerCase().toCharArray()) {
+        if (Character.isSpaceChar(c) || c == '-') {
+            nextTitleCase = true
+            //titleCase.append(c)
+        } else if (nextTitleCase) {
+            titleCase.append(Character.toTitleCase(c))
+            nextTitleCase = false
+        }
+    }
+    
+    return titleCase.toString()
+}
+
 
 
 
