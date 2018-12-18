@@ -12,7 +12,10 @@ import android.os.Environment
 import android.os.storage.StorageManager
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.ViewConfiguration
 import android.view.WindowManager
+import androidx.annotation.Dimension
+import androidx.annotation.Px
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.obsez.mobile.meijue.ui.MeijueUiAppModule
@@ -22,8 +25,6 @@ import timber.log.Timber
 //////////////////
 
 object Utils {
-    private var screenWidth = 0
-    private var screenHeight = 0
     
     val isAndroid5: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
@@ -97,29 +98,146 @@ object Utils {
     }
     
     
+    @Px
     fun getScreenHeight(c: Context): Int {
-        if (screenHeight == 0) {
+        if (mScreenHeight == 0) {
             val wm = c.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val display = wm.defaultDisplay
             val size = Point()
             display.getSize(size)
-            screenHeight = size.y
+            mScreenHeight = size.y
         }
         
-        return screenHeight
+        return mScreenHeight
     }
     
+    @Px
     fun getScreenWidth(c: Context): Int {
-        if (screenWidth == 0) {
+        if (mScreenWidth == 0) {
             val wm = c.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val display = wm.defaultDisplay
             val size = Point()
             display.getSize(size)
-            screenWidth = size.x
+            mScreenWidth = size.x
         }
         
-        return screenWidth
+        return mScreenWidth
     }
+    
+    @Px
+    private var mScreenWidth = 0
+    @Px
+    private var mScreenHeight = 0
+    
+    @get:Px
+    inline val screenHeight: Int
+        get() = getScreenHeight(MeijueUiAppModule.get().context)
+    
+    @get:Px
+    inline val screenWidth: Int
+        get() = getScreenWidth(MeijueUiAppModule.get().context)
+    
+    
+    //
+    
+    
+    @Dimension(unit = Dimension.DP)
+    private var mActionBarSizeInDp: Int = 0
+    @Dimension(unit = Dimension.PX)
+    private var mActionBarSize: Int = 0
+    
+    @get:Dimension(unit = Dimension.DP)
+    val actionBarSizeInDp: Int
+        get() {
+            if (mActionBarSizeInDp == 0) {
+                val styledAttributes = MeijueUiAppModule.get().context.theme.obtainStyledAttributes(
+                    intArrayOf(android.R.attr.actionBarSize))
+                mActionBarSizeInDp = styledAttributes.getDimension(0, 0f).toInt()
+                styledAttributes.recycle()
+            }
+            return mActionBarSizeInDp
+        }
+    
+    @get:Dimension(unit = Dimension.PX)
+    val actionBarSize: Int
+        get() {
+            if (mActionBarSize == 0) {
+                val styledAttributes = MeijueUiAppModule.get().context.theme.obtainStyledAttributes(
+                    intArrayOf(android.R.attr.actionBarSize))
+                mActionBarSize = styledAttributes.getDimensionPixelSize(0, 0)
+                styledAttributes.recycle()
+            }
+            return mActionBarSize
+        }
+    
+    @Dimension(unit = Dimension.DP)
+    private var mStatusBarSizeInDp: Int = 0
+    @Dimension(unit = Dimension.PX)
+    private var mStatusBarSize: Int = 0
+    
+    @get:Dimension(unit = Dimension.DP)
+    val statusBarHeightInDp: Int
+        get() {
+            if (mStatusBarSizeInDp == 0) {
+                val res = MeijueUiAppModule.get().context.resources
+                val resourceId = res.getIdentifier("status_bar_height", "dimen", "android")
+                if (resourceId > 0) {
+                    mStatusBarSizeInDp = res.getDimension(resourceId).toInt()
+                }
+            }
+            return mStatusBarSizeInDp
+        }
+    
+    @get:Dimension(unit = Dimension.PX)
+    val statusBarHeight: Int
+        get() {
+            if (mStatusBarSize == 0) {
+                val res = MeijueUiAppModule.get().context.resources
+                val resourceId = res.getIdentifier("status_bar_height", "dimen", "android")
+                if (resourceId > 0) {
+                    mStatusBarSize = res.getDimensionPixelSize(resourceId)
+                }
+            }
+            return mStatusBarSize
+        }
+    
+    
+    @Dimension(unit = Dimension.DP)
+    private var mNavigationBarSizeInDp: Int = 0
+    @Dimension(unit = Dimension.PX)
+    private var mNavigationBarSize: Int = 0
+    
+    @get:Dimension(unit = Dimension.DP)
+    val navigationBarHeightInDp: Int
+        get() {
+            if (mNavigationBarSizeInDp == 0) {
+                val res = MeijueUiAppModule.get().context.resources
+                val resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android")
+                if (resourceId > 0 && !hasMenuKey) {
+                    mNavigationBarSizeInDp = res.getDimension(resourceId).toInt()
+                }
+            }
+            return mNavigationBarSizeInDp
+        }
+    
+    @get:Dimension(unit = Dimension.PX)
+    val navigationBarHeight: Int
+        get() {
+            if (mNavigationBarSize == 0) {
+                val res = MeijueUiAppModule.get().context.resources
+                val resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android")
+                if (resourceId > 0 && !hasMenuKey) {
+                    mNavigationBarSize = res.getDimensionPixelSize(resourceId)
+                }
+            }
+            return mNavigationBarSize
+        }
+    
+    val hasMenuKey: Boolean = ViewConfiguration.get(MeijueUiAppModule.get().context).hasPermanentMenuKey()
+    
+    
+    //
+    
     
     /**
      * https://developer.android.com/training/multiscreen/screensizes#TaskUseSWQuali
@@ -199,3 +317,12 @@ object Utils {
     }
     
 }
+
+
+fun Int.toPx(): Int = Utils.dp2px(this)
+fun Int.toDp(): Int = Utils.px2dp(this)
+fun Float.toPx(): Float = Utils.dp2px(this)
+fun Float.toDp(): Float = Utils.px2dp(this)
+
+
+
