@@ -60,6 +60,9 @@ fun BottomNavigationView.getBottomNavigationItemViews(): Array<BottomNavigationI
 
 fun BottomNavigationView.getBottomNavigationItemView(position: Int) = getBottomNavigationItemViews()?.get(position)
 
+/**
+ * androidx: ?? 使用 {@link BottomNavigationView#setItemHorizontalTranslationEnabled(true)} 代替
+ */
 @SuppressLint("RestrictedApi")
 fun BottomNavigationView.enableShiftingMode(enable: Boolean) {
     /*
@@ -76,6 +79,14 @@ fun BottomNavigationView.enableShiftingMode(enable: Boolean) {
     mMenuView.updateMenuView()
 }
 
+@SuppressLint("RestrictedApi")
+fun BottomNavigationView.enableShiftingMode(position: Int, enable: Boolean) {
+    getBottomNavigationItemView(position)?.setShifting(enable)
+}
+
+/**
+ * androidx: ?? 使用 {@link BottomNavigationView#setItemHorizontalTranslationEnabled(true)} 代替
+ */
 @SuppressLint("RestrictedApi")
 fun BottomNavigationView.enableItemShiftingMode(enable: Boolean) {
     /*
@@ -99,6 +110,9 @@ fun BottomNavigationView.enableItemShiftingMode(enable: Boolean) {
     mMenuView.updateMenuView()
 }
 
+/**
+ * androidx: ?? 使用 {@link BottomNavigationView#setItemHorizontalTranslationEnabled(false)} 代替
+ */
 @SuppressLint("RestrictedApi")
 fun BottomNavigationView.disableShiftMode() {
     val menuView = this.getChildAt(0) as BottomNavigationMenuView
@@ -300,11 +314,6 @@ fun BottomNavigationView.setTypeface(typeface: Typeface) {
     mMenuView.updateMenuView()
 }
 
-
-@SuppressLint("RestrictedApi")
-fun BottomNavigationView.enableShiftingMode(position: Int, enable: Boolean) {
-    getBottomNavigationItemView(position)?.setShifting(enable)
-}
 
 @SuppressLint("RestrictedApi")
 fun BottomNavigationView.setItemBackground(position: Int, background: Int) {

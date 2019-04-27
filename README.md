@@ -62,6 +62,13 @@ public class AnimApplication extends Application {
 }
 ```
 
+#### Or, derived from `BaseApp`
+
+```kotlin
+class AnimAppliation: BaseApp {
+}
+```
+
 ### 3. use Base classes
 
 when you need a simple base class and structure, `BaseActivity` or `ToolbarAnimActivity` would be one of choices.
@@ -101,8 +108,81 @@ class MainActivity : ToolbarAnimActivity(), NavigationView.OnNavigationItemSelec
 
         nav_view.setNavigationItemSelectedListener(this)
     }
+    
+    override fun postContentAnimation() {
+        super.postContentAnimation()
+        // put your late init codes here, better than onResume()
+    }
 }
 ```
+
+#### 3.1. Enable Android native Night Mode:
+
+in your `MainActivity`:
+
+```kotlin
+override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        //val pref = PreferenceUtil.get(this)
+        //@AppCompatDelegate.NightMode val nightMode = pref.getInt("nightMode", AppCompatDelegate.getDefaultNightMode())
+        //Timber.d("load nightMode : $nightMode")
+        when (nightMode) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> menu.findItem(R.id.menu_night_mode_system)?.isChecked = true
+            // 22:00 - 07:00 时间段内自动切换为夜间模式
+            // 可以有机会拦截这个判定，改为实现自己的机制，例如依据日出日落（需要地理坐标）来变更。
+            AppCompatDelegate.MODE_NIGHT_AUTO -> menu.findItem(R.id.menu_night_mode_auto)?.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_YES -> menu.findItem(R.id.menu_night_mode_night)?.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> menu.findItem(R.id.menu_night_mode_day)?.isChecked = true
+        }
+        return true
+    }
+    
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.menu_night_mode_system -> { nightMode = (AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM); true }
+            R.id.menu_night_mode_day -> { nightMode = (AppCompatDelegate.MODE_NIGHT_NO); true }
+            R.id.menu_night_mode_night -> { nightMode = (AppCompatDelegate.MODE_NIGHT_YES); true }
+            R.id.menu_night_mode_auto -> { nightMode = (AppCompatDelegate.MODE_NIGHT_AUTO); true }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+```
+
+and, switch to Day/Night Theme (styles.xml):
+
+```xml
+    <!-- Base application theme. Theme.AppCompat.Light.DarkActionBar -->
+    <style name="Base.AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme" parent="Base.AppTheme">
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay.Dark" parent="ThemeOverlay.AppCompat.Dark"/>
+
+```
+
+check out the completed codes and resources in demo app.
 
 ### 4. use kotlin extensions
 
@@ -270,6 +350,13 @@ For the completed codes, see also the demo app.
 todo.
 
 
+
+
+### Demo Application
+
+An `Early access` (`抢先体验`) demo-app can be installed from [Play Store](https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim).
+
+<a href='https://play.google.com/store/apps/details?id=com.obsez.mobile.leshananim&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width='240' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
 
 

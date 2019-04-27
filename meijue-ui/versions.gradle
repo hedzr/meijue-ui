@@ -2,16 +2,21 @@
 
 ext {
 
-    supports_lib_version = "28.0.0" //"28.0.0-beta01"
+    kotlin_version = '1.3.30' //'1.2.71' //''1.2.51' //'1.2.31' //'1.2.30' // '1.1.60' // 1.1.51
 
-    arch_runtime_version = "2.0.0" //"1.1.1" //"1.0.3"
-    arch_version = "2.0.0"
-    arch_room_version = "2.0.0"
+    support_version= "28.0.0" //"28.0.0-beta01"
+    supportLibVersion = support_version
+    supports_lib_version = support_version
 
-    dagger_version = "2.16"
-    moshi_version = "1.6.0"
-    retrofit_version = "2.4.0"
-    okhttp_version = "3.10.0"
-    glide_version = "4.8.0"
+    anko_version = '0.10.4'
+    arch_runtime_version = '2.0.0' // '2.1.0-alpha06' //"1.1.1" //"1.0.3"
+    arch_version = arch_runtime_version //"2.0.0"
+    arch_room_version = arch_runtime_version //"2.0.0"
+
+    dagger_version = '2.22.1'
+    moshi_version = '1.8.0'
+    retrofit_version = '2.5.0'
+    okhttp_version = '3.14.1'
+    glide_version = '4.9.0'
 
 }

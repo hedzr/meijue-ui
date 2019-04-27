@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
 import androidx.core.graphics.drawable.IconCompat
-import com.obsez.mobile.meijue.ui.MeijueUiAppModule
+import com.obsez.mobile.meijue.ui.MeijueUi
 import com.obsez.mobile.meijue.ui.R
 import java.lang.ref.WeakReference
 
@@ -38,8 +38,8 @@ class NotificationUtil private constructor() {
     
     init {
         //mContext = WeakReference<Context>(null)
-        //from(MeijueUiAppModule.get().context)
-        val context = MeijueUiAppModule.get().context
+        //from(MeijueUi.get().context)
+        val context = MeijueUi.get().context
         mContext = WeakReference(context)
         mNotificationManager = context.applicationContext.getSystemService(
             Context.NOTIFICATION_SERVICE) as NotificationManager

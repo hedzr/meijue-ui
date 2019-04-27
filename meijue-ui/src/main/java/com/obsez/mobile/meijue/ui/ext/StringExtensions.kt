@@ -2,8 +2,13 @@
 
 package com.obsez.mobile.meijue.ui.ext
 
+import android.content.Context
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.Base64
 import android.util.Patterns
+import com.bumptech.glide.Glide
 import com.obsez.mobile.meijue.ui.util.Radix31
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
@@ -130,6 +135,47 @@ fun String.sha1(): String {
 fun String.toRadix31Integer(): Int = Radix31.stringToJava31radix(this)
 
 fun Int.toRadix31String(): String = Radix31.intToJava31radix(this)
+
+
+inline fun <reified T : CharSequence> String.ptn(map: Map<String, T>): CharSequence {
+    return """\{(.*?)}""".toRegex().replace(this) { mr ->
+        // println(mr.groupValues[1] + " position: [" + mr.range + "]")
+        if (map.containsKey(mr.groupValues[1])) map[mr.groupValues[1]]!! else mr.value
+    }
+}
+
+
+fun String.htmlToSpan(context: Context, imageGetter: Html.ImageGetter = Html.ImageGetter {
+    Glide.with(context).load(it).submit(-1, -1).get()
+}): Spanned {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY, imageGetter, null)
+    } else {
+        @Suppress("DEPRECATION")
+        Html.fromHtml(this, imageGetter, null)
+    }
+}
+
+/**
+ * convert the hyphen-string and spaced-string/words to Camel Case.
+ * such as: 'a child' -> aChild, 'a-child' -> aChild
+ */
+fun String.toCamelCase(): String {
+    val titleCase = StringBuilder()
+    var nextTitleCase = true
+    
+    for (c in this.toLowerCase().toCharArray()) {
+        if (Character.isSpaceChar(c) || c == '-') {
+            nextTitleCase = true
+            //titleCase.append(c)
+        } else if (nextTitleCase) {
+            titleCase.append(Character.toTitleCase(c))
+            nextTitleCase = false
+        }
+    }
+    
+    return titleCase.toString()
+}
 
 
 

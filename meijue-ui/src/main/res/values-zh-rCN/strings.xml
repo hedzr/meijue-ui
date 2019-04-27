@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="gps_positioning">正在定位…</string>
+    <string name="twice_back_pressed_to_exit">再次点击"后退"按钮，以退出应用。</string>
+
+</resources>

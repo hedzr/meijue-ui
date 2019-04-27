@@ -14,10 +14,12 @@ import android.widget.Toast
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.google.android.material.snackbar.Snackbar
+import com.obsez.mobile.meijue.ui.R
 import org.jetbrains.annotations.NotNull
 
 
@@ -38,6 +40,16 @@ fun Activity.hideKeyboard(): Boolean {
 }
 
 
+fun AppCompatActivity.setHomeAsUpIndicator(@DrawableRes resId: Int) {
+    supportActionBar?.setHomeAsUpIndicator(resId)
+}
+
+fun AppCompatActivity.setHomeAsUpIndicatorWithBack() = setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp)
+fun AppCompatActivity.setHomeAsUpIndicatorWithMenu() = setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+fun AppCompatActivity.setHomeAsUpIndicatorWithBackWhite() = setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+fun AppCompatActivity.setHomeAsUpIndicatorWithMenuWhite() = setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+
+
 /**
  * Usage:
  *     toast(xxx)
@@ -56,11 +68,13 @@ fun Activity.toast(@NotNull msg: CharSequence, duration: Int = Toast.LENGTH_SHOR
  *     }
  */
 fun Activity.snackBar(@StringRes id: Int, vararg args: Any?, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
-    val s = Snackbar.make(rootContentView, getString(id, args), duration); func?.let { s.it() }; s.show()
+    val s = Snackbar.make(firstCoordinatorLayout()
+        ?: rootContentView, getString(id, args), duration); func?.let { s.it() }; s.show()
 }
 
 fun Activity.snackBar(@NotNull msg: CharSequence, duration: Int = Snackbar.LENGTH_LONG, func: (Snackbar.() -> Unit)? = null) {
-    val s = Snackbar.make(rootContentView, msg, duration); func?.let { s.it() }; s.show()
+    val s = Snackbar.make(firstCoordinatorLayout()
+        ?: rootContentView, msg, duration); func?.let { s.it() }; s.show()
 }
 
 
@@ -129,7 +143,7 @@ inline fun <reified T> AppCompatActivity.startActivity(vararg sharedElements: Vi
         startActivity(intent)
         return
     }
-
+    
     //val elements = emptyArray<Pair<View, String>>()
     val elements = Array(sharedElements.size) { androidx.core.util.Pair(this.rootContentView, "") }
     for (i in 0 until sharedElements.size) {
@@ -241,6 +255,72 @@ val Activity.rootContentViewGroup: ViewGroup
         val v = window.decorView.findViewById<ViewGroup>(android.R.id.content)
         return v.getChildAt(0) as ViewGroup
     }
+
+
+fun Activity.firstCoordinatorLayout(): CoordinatorLayout? {
+    
+    val root = window.decorView.findViewById<ViewGroup>(android.R.id.content)
+    
+    fun innerFind(parentView: ViewGroup): CoordinatorLayout? {
+        for (i in 0 until parentView.childCount) {
+            val v = parentView[i]
+            if (v is CoordinatorLayout) {
+                return v
+            }
+            if (v is ViewGroup) {
+                val vr = innerFind(v)
+                if (vr != null) {
+                    return vr
+                }
+            }
+        }
+        return null
+    }
+    
+    return innerFind(root)
+}
+
+
+/**
+ * @param color res id eg: R.color.colorPrimaryDark
+ */
+fun Activity.setSystemBarColor(@ColorRes color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = this.resources.getColor(color)
+    }
+}
+
+fun Activity.setSystemBarLight() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val view = this.findViewById<View>(android.R.id.content)
+        var flags = view.systemUiVisibility
+        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        view.systemUiVisibility = flags
+    }
+}
+
+/**
+ * @param color res id eg: R.color.colorPrimaryDark
+ */
+fun Activity.clearSystemBarLight(@ColorRes colorReset: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        window.statusBarColor = ContextCompat.getColor(this, colorReset)
+    }
+}
+
+/**
+ * Making notification bar transparent
+ */
+fun Activity.setSystemBarTransparent() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = Color.TRANSPARENT
+    }
+}
+
+
 
 
 

@@ -1,7 +1,7 @@
 package com.obsez.mobile.meijue.ui.ext
 
 import android.content.Context
-import com.obsez.mobile.meijue.ui.MeijueUiAppModule
+import com.obsez.mobile.meijue.ui.MeijueUi
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmName
@@ -81,7 +81,7 @@ class Preference<T>(val name: String, private val default: T, private val prefNa
     
     constructor(default: T, prefName: String = "default") : this("", default, prefName)
     
-    private val prefs by lazy { MeijueUiAppModule.get().context.getSharedPreferences(prefName, Context.MODE_PRIVATE) }
+    private val prefs by lazy { MeijueUi.get().context.getSharedPreferences(prefName, Context.MODE_PRIVATE) }
     
     override operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return findPreference(findProperName(property), default)

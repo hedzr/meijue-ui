@@ -1,5 +1,6 @@
 package com.obsez.mobile.leshananim.ui.login
 
+import android.Manifest
 import android.Manifest.permission.READ_CONTACTS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -14,14 +15,15 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.obsez.mobile.leshananim.R
+import com.obsez.mobile.meijue.ui.ext.snackBar
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 import java.util.*
@@ -68,10 +70,11 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             return true
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                .setAction(android.R.string.ok) {
-                    requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS)
+            snackBar(R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE) {
+                setAction(android.R.string.ok) {
+                    requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), REQUEST_READ_CONTACTS)
                 }
+            }
         } else {
             requestPermissions(arrayOf(READ_CONTACTS), REQUEST_READ_CONTACTS)
         }
