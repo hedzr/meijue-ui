@@ -14,7 +14,6 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
-import com.obsez.mobile.meijue.ui.R
 
 
 /**
@@ -77,7 +76,7 @@ object ToolbarColorizeHelper {
      * @param colorFilter
      */
     private fun setOverflowButtonColor(activity: Activity, colorFilter: PorterDuffColorFilter) {
-        val overflowDescription = activity.getString(R.string.abc_action_menu_overflow_description)
+        val overflowDescription = "More options" // activity.getString(R.string.abc_action_menu_overflow_description)
         val decorView = activity.window.decorView as ViewGroup
         val viewTreeObserver = decorView.viewTreeObserver
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
