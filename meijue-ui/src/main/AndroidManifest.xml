@@ -1,2 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.obsez.mobile.meijue.ui"/>
+          package="com.obsez.mobile.meijue.ui">
+
+    <permission
+        android:name="com.obsez.mobile.meijue.ui.generic.read"
+        android:protectionLevel="normal"/>
+    <permission
+        android:name="com.obsez.mobile.meijue.ui.generic.write"
+        android:protectionLevel="normal"/>
+
+    <application>
+        <provider
+            android:authorities="com.obsez.mobile.meijue.ui"
+            android:name=".MeijueUiProvider"
+            android:exported="true"
+            android:readPermission="com.obsez.mobile.meijue.ui.generic.read"
+            android:writePermission="com.obsez.mobile.meijue.ui.generic.write"/>
+    </application>
+
+
+</manifest>

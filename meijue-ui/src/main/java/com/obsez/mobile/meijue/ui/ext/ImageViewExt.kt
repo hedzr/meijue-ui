@@ -10,7 +10,7 @@ import com.squareup.picasso.RequestCreator
 
 
 fun ImageView.loadUrlViaPicasso(url: String, func: (RequestCreator.() -> RequestCreator)? = null) {
-    val rc = Picasso.with(context).load(url)
+    val rc = Picasso.get().load(url)
     if (func != null) {
         rc.func()
     }
@@ -35,13 +35,15 @@ fun ImageView.loadUrlViaGlide(url: String, func: (RequestBuilder<Drawable>.() ->
 }
 
 /**
+ * Study the concepts at first while using Fresco;
+ *
  * 使用 Fresco 需要事先学习相关概念。
  *
  * https://www.jianshu.com/p/bb32bca8796b
  * https://blog.csdn.net/tiankongcheng6/article/details/53884611
  * https://fucknmb.com/2017/07/27/%E4%B8%80%E7%A7%8D%E4%BD%BF%E7%94%A8Fresco%E9%9D%9E%E4%BE%B5%E5%85%A5%E5%BC%8F%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E5%BC%8F/
  *
- * TODO 完整地支持 Fresco 需要以后安排时间
+ * TODO 完整地支持 Fresco 需要以后安排时间 (Need a plan to support Fresco fully)
  *
  */
 fun ImageView.loadUrlViaFresco(url: String, func: (RequestBuilder<Drawable>.() -> RequestBuilder<Drawable>)? = null) {

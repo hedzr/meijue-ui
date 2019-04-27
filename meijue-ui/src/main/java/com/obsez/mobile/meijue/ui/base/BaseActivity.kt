@@ -69,7 +69,7 @@ open class BaseActivity : AppCompatActivity(), FrameElements {
     
     protected var lastAttachedFragment: WeakReference<Fragment>? = null
     
-    override fun onAttachFragment(fragment: Fragment?) {
+    override fun onAttachFragment(fragment: Fragment) {
         super.onAttachFragment(fragment)
         
         Timber.d("onAttachFragment: $fragment")

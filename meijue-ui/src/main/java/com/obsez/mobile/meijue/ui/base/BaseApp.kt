@@ -1,7 +1,6 @@
 package com.obsez.mobile.meijue.ui.base
 
 import android.app.Application
-import com.obsez.mobile.meijue.ui.MeijueUiAppModule
 
 /**
  * Just a sample Application class
@@ -14,8 +13,9 @@ abstract class BaseApp : Application() {
     
     override fun onCreate() {
         super.onCreate()
-        // 至少，Preference<T> 需要这里已完成正确的初始化
-        MeijueUiAppModule.get().init(this)
+    
+        //        // 至少，Preference<T> 需要这里已完成正确的初始化
+        //        MeijueUi.get().init(this)
     }
     
     //    override fun onTerminate() {
