@@ -98,12 +98,12 @@ dependencies {
 
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compileOnly 'androidx.appcompat:appcompat:1.0.2'
-    compileOnly 'androidx.core:core-ktx:1.0.1'
+    compileOnly 'androidx.core:core-ktx:1.0.0'
     compileOnly 'androidx.constraintlayout:constraintlayout:1.1.3'
     compileOnly 'com.google.android.material:material:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 
 
@@ -238,7 +238,7 @@ dependencies {
     compileOnly "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     // kapt deps.apt_databinding
-    kapt('androidx.databinding:databinding-compiler:3.4.0') {
+    kapt('androidx.databinding:databinding-compiler:3.4.1') {
         exclude group: 'androidx.annotation'
         exclude group: 'androidx.collection'
         exclude group: 'androidx.lifecycle'
